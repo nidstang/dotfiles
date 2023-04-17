@@ -29,7 +29,6 @@ Plug 'benmills/vimux' " Integration for vim and tmux
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'airblade/vim-rooter'
 
 call plug#end()

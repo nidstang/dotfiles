@@ -9,7 +9,7 @@ let g:mapleader = " " " Set leader to spacebar
 set spelllang=en_gb
 set backspace=indent,eol,start " Bring backspace to life
 set number          " Line numbers
-" set relativenumber  " Relative line numbers
+set relativenumber  " Relative line numbers
 set hlsearch        " Highlight whole word when searching
 set ignorecase      " Ignore case when searching...
 set smartcase       " ...except when serach query contains a capital letter
@@ -32,6 +32,7 @@ map <C-n> :NERDTreeToggle<CR>
 set noswapfile
 
 " Disable arrow keys in Escape mode
+lsp
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
