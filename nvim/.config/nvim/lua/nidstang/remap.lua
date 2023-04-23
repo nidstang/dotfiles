@@ -24,3 +24,5 @@ vim.keymap.set("n", "<leader><leader>", ":w<CR>")
 -- copy to clipboard
 vim.keymap.set("x", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>P", "\"+p")
+
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.local/bin/tmux-sessionizer<CR>")
