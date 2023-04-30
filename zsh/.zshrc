@@ -116,16 +116,5 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-alias vim=nvim
-alias python=python3
-alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
-
-bindkey -s ^f "tmux-sessionizer\n"
-
-work() {
-    cp ~/.npm_work_rc ~/.npmrc
-}
-
-personal() {
-    cp ~/.npm_personal_rc ~/.npmrc
-}
+source ~/.zsh_profile
+source ~/.zsh_work

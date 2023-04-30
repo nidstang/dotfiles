@@ -1,0 +1,13 @@
+alias vim=nvim
+alias python=python3
+alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
+
+bindkey -s ^f "tmux-sessionizer\n"
+
+work() {
+    cp ~/.npm_work_rc ~/.npmrc
+}
+
+personal() {
+    cp ~/.npm_personal_rc ~/.npmrc
+}
