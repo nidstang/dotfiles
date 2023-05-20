@@ -16,9 +16,10 @@ vim.keymap.set("n", "C-u", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- sends the delete in copy to void 
+-- sends the delete in copy to void
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
+-- save current file
 vim.keymap.set("n", "<leader><leader>", ":w<CR>")
 
 -- copy to clipboard
@@ -26,3 +27,9 @@ vim.keymap.set("x", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>P", "\"+p")
 
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.local/bin/tmux-sessionizer<CR>")
+
+-- lsp format
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format);
+
+-- esc with two jj keystrokes
+vim.keymap.set("i", "jj", "<Esc>");
