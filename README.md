@@ -9,6 +9,7 @@
 
 ## Shells
 - I'm using mostly zsh, so the bashrc will keep outdated
+- Also, I'm using oh my zsh to get my zsh configured and to use some great plugins!
 - zsh must be installed (it comes with arch, which is my distribution but maybe you have to install it for debian)
 - $SHELL must be pointed to /bin/zsh in order to everything work as expected
 - zshrc keeps the basic zsh configuration
