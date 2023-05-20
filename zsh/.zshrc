@@ -104,10 +104,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export PREFIX="$HOME/n"
+export N_PREFIX="$HOME/n"
+
 # # Add Visual Studio Code (code)
 # export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-# export PATH=
+export PATH=$PATH:$HOME/n/bin
 
 # bun completions
 [ -s "/Users/pablofernandezfranco/.bun/_bun" ] && source "/Users/pablofernandezfranco/.bun/_bun"
@@ -118,3 +121,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 source ~/.zsh_profile
 source ~/.zsh_work
+source ~/.zsh_custom
