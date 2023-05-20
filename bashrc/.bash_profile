@@ -80,3 +80,4 @@ fi
 
 alias vi="/usr/bin/nvim"
 alias vim="/usr/bin/nvim"
+. "$HOME/.cargo/env"
