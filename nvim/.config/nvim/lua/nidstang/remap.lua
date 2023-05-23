@@ -9,8 +9,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "J", "mzJ`z")
 
 -- better page up/down
-vim.keymap.set("n", "C-d", "<C-d>zz")
-vim.keymap.set("n", "C-u", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- improve cursor behaviour at searching
 vim.keymap.set("n", "n", "nzzzv")
