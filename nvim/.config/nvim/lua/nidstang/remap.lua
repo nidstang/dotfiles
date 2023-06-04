@@ -33,3 +33,7 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format);
 
 -- esc with two jj keystrokes
 vim.keymap.set("i", "jj", "<Esc>");
+
+-- keep in visual mode when I do > or < (this is amazing)
+vim.keymap.set("v", ">", ">gv");
+vim.keymap.set("v", "<", "<gv");
