@@ -31,9 +31,12 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.local/bin/tmux-sessioniz
 -- lsp format
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format);
 
--- esc with two jj keystrokes
+-- esc with jj stroke 
 vim.keymap.set("i", "jj", "<Esc>");
 
 -- keep in visual mode when I do > or < (this is amazing)
 vim.keymap.set("v", ">", ">gv");
 vim.keymap.set("v", "<", "<gv");
+
+-- enter to insert
+vim.keymap.set("n", "<CR>", "ciw");
