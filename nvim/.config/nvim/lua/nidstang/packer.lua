@@ -38,11 +38,10 @@ return require('packer').startup(function(use)
     use ('ThePrimeagen/harpoon')
     use ('mbbill/undotree')
     use ('tpope/vim-fugitive')
-    -- I would try to not use this for a while because I think is not as useful as I though :)
-    -- use {
-    --     "windwp/nvim-autopairs",
-    --     config = function() require("nvim-autopairs").setup {} end
-    -- }
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
 
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -73,6 +72,11 @@ use {
         require('Comment').setup()
     end
 }
+
+-- use {
+--     'folke/flash.nvim',
+--     opts = {},
+-- }
 
 if packer_bootstrap then
     require('packer').sync()
