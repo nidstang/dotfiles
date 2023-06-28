@@ -196,10 +196,10 @@ bar {
 # suspend
 bindsym $mod+Shift+period exec systemctl suspend
 
-bindsym $mod+Shift+s --no-startup-id ~/dotfiles/bin/.local/bin/resolution
+bindsym $mod+Shift+i --no-startup-id bash ~/dotfiles/bin/.local/bin/resolution
 
 # keyboard us international with dead keys
-exec_always "setxkbmap -layout us -variant intl"
+exec_always "setxkbmap -layout us -variant intl -option caps:ctrl_modifier"
 
 ## Screenshots
 bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
