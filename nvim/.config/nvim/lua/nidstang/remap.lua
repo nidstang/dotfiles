@@ -38,5 +38,7 @@ vim.keymap.set("i", "jj", "<Esc>");
 vim.keymap.set("v", ">", ">gv");
 vim.keymap.set("v", "<", "<gv");
 
--- enter to insert
+-- enter to insert 
 vim.keymap.set("n", "<CR>", "ciw");
+
+vim.keymap.set("n", "<C-i>", "<C-a>");
