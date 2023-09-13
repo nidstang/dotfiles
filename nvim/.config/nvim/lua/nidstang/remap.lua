@@ -42,3 +42,7 @@ vim.keymap.set("v", "<", "<gv");
 vim.keymap.set("n", "<CR>", "ciw");
 
 vim.keymap.set("n", "<C-i>", "<C-a>");
+
+
+-- diagnostics
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float);

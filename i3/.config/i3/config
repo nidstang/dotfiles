@@ -210,3 +210,10 @@ bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(d
 bindsym $mod+p exec --no-startup-id maim | xclip -selection clipboard -t image/png
 bindsym $mod+i exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 bindsym $mod+Shift+p exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+minus scratchpad show

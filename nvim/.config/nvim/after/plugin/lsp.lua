@@ -42,6 +42,7 @@ lsp.on_attach(function (client, bufnr)
 
     vim.keymap.set('n', '<leader>vr', function () vim.lsp.buf.rename() end, opts)
     vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
 end)
 
 -- lsp.setup_nvim_cmp({
