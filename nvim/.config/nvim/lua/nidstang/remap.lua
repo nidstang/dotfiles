@@ -46,3 +46,6 @@ vim.keymap.set("n", "<C-i>", "<C-a>");
 
 -- diagnostics
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float);
+
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+
