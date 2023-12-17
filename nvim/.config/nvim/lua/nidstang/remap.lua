@@ -59,3 +59,6 @@ vim.keymap.set("n", "]b", "<cmd>bnext<cr>", {
     desc = "Next buffer",
 })
 -- end move between buffers
+
+-- lazygit
+vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>")
