@@ -47,5 +47,15 @@ vim.keymap.set("n", "<C-i>", "<C-a>");
 -- diagnostics
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float);
 
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 
+-- brackets motions
+-- move between buffers
+vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", {
+    desc = "Prev buffer",
+})
+
+vim.keymap.set("n", "]b", "<cmd>bnext<cr>", {
+    desc = "Next buffer",
+})
+-- end move between buffers
