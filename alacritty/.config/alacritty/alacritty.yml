@@ -1,0 +1,16 @@
+font:
+  normal:
+    family: "JetBrainsMono Nerd Font Mono"
+    style: Bold
+  size: 18
+
+live_config_reload: true
+
+window:
+  decorations: buttonless
+  dynamic_padding: false
+  padding:
+    x: 18
+    y: 16
+
+ 
