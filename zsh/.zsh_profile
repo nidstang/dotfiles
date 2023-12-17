@@ -1,6 +1,7 @@
 alias vim=nvim
 alias python=python3
 alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
+alias lg=lazygit
 
 bindkey -s ^f "tmux-sessionizer\n"
 
@@ -11,3 +12,5 @@ work() {
 personal() {
     cp ~/.npm_personal_rc ~/.npmrc
 }
+
+eval "$(starship init zsh)"
