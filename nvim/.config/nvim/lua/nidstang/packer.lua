@@ -81,6 +81,29 @@ use({
     },
 })
 
+use({
+  "epwalsh/obsidian.nvim",
+  tag = "*",  -- recommended, use latest release instead of latest commit
+  requires = {
+    -- Required.
+    "nvim-lua/plenary.nvim",
+  },
+})
+
+use({
+  "epwalsh/pomo.nvim",
+  tag = "*",  -- Recommended, use latest release instead of latest commit
+  requires = {
+    -- Optional, but highly recommended if you want to use the "Default" timer
+    "rcarriga/nvim-notify",
+  },
+  config = function()
+    require("pomo").setup({
+      -- See below for full list of options 👇
+    })
+  end,
+})
+
 -- use {
 --     'folke/flash.nvim',
 --     opts = {},
