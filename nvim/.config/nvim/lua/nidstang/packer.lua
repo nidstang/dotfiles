@@ -19,7 +19,7 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.4',
         -- or                            , branch = '0.1.x',
         requires = { {'nvim-lua/plenary.nvim'} }
     }
@@ -40,7 +40,10 @@ return require('packer').startup(function(use)
     use ('tpope/vim-fugitive')
     use {
         "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
+        config = function() require("nvim-autopairs").setup {
+            disable_filetype = { "markdown" },
+            enable_check_bracket_line = false,
+        } end
     }
 
     use {
