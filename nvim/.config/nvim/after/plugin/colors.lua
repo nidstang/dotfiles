@@ -1,1 +1,5 @@
-require('monokai').setup { palette = require('monokai').pro }
+require('monokai-pro').setup({
+    filter = "spectrum",
+})
+
+vim.cmd [[colorscheme monokai-pro]]

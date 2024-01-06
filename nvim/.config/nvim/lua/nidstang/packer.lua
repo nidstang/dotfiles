@@ -32,9 +32,19 @@ return require('packer').startup(function(use)
         }
     }
 
-    use 'tanvirtin/monokai.nvim'
+    use {
+      "loctvl842/monokai-pro.nvim",
+      config = function()
+        require("monokai-pro").setup()
+      end
+    }
 
     use ('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
+    use({
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+    })
     use ('ThePrimeagen/harpoon')
     use ('mbbill/undotree')
     use ('tpope/vim-fugitive')
@@ -67,7 +77,7 @@ return require('packer').startup(function(use)
     }
 }
 
-use 'ThePrimeagen/vim-be-good'
+-- use 'ThePrimeagen/vim-be-good'
 
 use {
     'numToStr/Comment.nvim',

@@ -25,14 +25,13 @@ require'nvim-treesitter.configs'.setup {
           enable = true,
           lookahead = true,
           keymaps = {
-              ["aa"] = '@parameter.outer',
-              ["ia"] = '@parameter.inner',
-              ["af"] = '@parameter.outer',
-              ["if"] = '@parameter.inner',
-              ["ac"] = '@class.outer',
-              ["ic"] = '@class.inner',
+              ['aa'] = '@parameter.outer',
+              ['ia'] = '@parameter.inner',
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
           },
-
       },
       move = {
           enable = true,
