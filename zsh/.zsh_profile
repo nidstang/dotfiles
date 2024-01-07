@@ -1,4 +1,5 @@
 alias vim=nvim
+alias v=nvim
 alias python=python3
 alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
 alias lg=lazygit
