@@ -31,14 +31,19 @@ It's very important that you edit this file but not to push changes if you are u
 
 This happens because files that are not commited will be ignored by nix
 
-Then just run:
+To build the system from my macbook air (personal), run:
 ```bash
-darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin#air
+darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/air#air
+```
+
+To build the system from my macbook pro (work), run:
+```bash
+darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/pro#pro
 ```
 
 Or if you are installing nix-darwin for the first time:
 ```bash
-nix run nix-darwin -- switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin#air
+nix run nix-darwin -- switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/air#air
 ```
 Important: Not use the path ~/.config/nix-darwin because nix does not seem to read well the symlink
 
