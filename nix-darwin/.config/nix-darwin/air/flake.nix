@@ -11,7 +11,6 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
-    userConfig = import ./user.nix;
     configuration = { pkgs, config, ... }: {
 
       nixpkgs.config.allowUnfree = true;
@@ -22,6 +21,7 @@
           pkgs.starship
           pkgs.alacritty
           pkgs.fzf
+          pkgs.lazygit
           pkgs.obsidian
           pkgs.stow
           pkgs.bat
@@ -96,7 +96,7 @@
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#MacBook-Air-de-Pablo
+    # $ darwin-rebuild build --flake .#air
     darwinConfigurations."air" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
@@ -105,7 +105,7 @@
             nix-homebrew = {
                 enable = true;
                 enableRosetta = true;
-                user = "${userConfig.username}";
+                user = "pablofernandezfranco";
                 autoMigrate = true;
             };
         }
