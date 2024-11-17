@@ -20,7 +20,11 @@
         [ pkgs.neovim
           pkgs.starship
           pkgs.alacritty
+          pkgs.jetbrains.idea-ultimate
+          pkgs.vscode
           pkgs.fzf
+          pkgs.glow
+          pkgs.zoxide
           pkgs.lazygit
           pkgs.obsidian
           pkgs.stow
@@ -60,10 +64,10 @@
       system.defaults = {
           dock.autohide = true;
           dock.mru-spaces = false;
-          dock.persistent-others = [
-              "~/Downloads"
-              "~/workspace"
-          ];
+          # dock.persistent-others = [
+          #     "~/Downloads"
+          #     "~/workspace"
+          # ];
           finder.AppleShowAllExtensions = true;
           finder.CreateDesktop = false;
           screencapture.location = "~/Pictures/screenshots";
@@ -74,6 +78,9 @@
 
       homebrew = {
           enable =  true;
+          casks = [
+            "google-chrome"
+          ];
           onActivation.cleanup = "zap";
       };
 
