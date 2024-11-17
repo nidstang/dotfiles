@@ -1,31 +1,82 @@
-# Useful information
+## List of packages
+- nodejs_20
+- tmux
+- neovim
+- starship
+- alacritty
+- fzf
+- bat
+- stow
+- mkalias
+- obsidian
 
-## Nvim
-- nvim config requires nvim (of course)
-- for nvim plugins to be installed, it requires packer (you can installed from the official page)
-- to install plugin just go to lua/nidstang/packer and source it. Then just run :PackerSync
-- it's strongly recommended to have nodejs/npm installed before :PackerSync, so lsp-server will be installed correctly at first
-- some keymaps are ready to work under tmux
+## List of casks
+- iina
 
-## Shells
-- I'm using mostly zsh, so the bashrc will keep outdated
-- Also, I'm using oh my zsh to get my zsh configured and to use some great plugins!
-- zsh must be installed (it comes with arch, which is my distribution but maybe you have to install it for debian)
-- $SHELL must be pointed to /bin/zsh in order to everything work as expected
-- zshrc keeps the basic zsh configuration
-- zsh_profile keeps my custom profile config
-- also a .zsh_work will be sourced but I keep it outside this repo
+## Getting started
 
-## Tmux
-- I'm a only-screen-at-the-time person. So tmux for me is a must
-- I got configured the tmux-sessionizer that I learnt from theprimegean user (so, all credit to him)
+### Pre requirements
+All packages are defined declaratively using nix and flakes, so we need to have this following configured:
 
-## Bin
-- I keep here my tmux-sessionizer
+- Nix: https://nix.dev/install-nix
+- Nix darwin: https://github.com/LnL7/nix-darwin
 
-## Vim
-- My old vim configuration. Since I'm using neovim right now I won't be updating it but it's perfectly working
+Also, homebrew is managed through nix and it will be installed/migrated when you build the system
 
 
-# Important
-I use 'stow' to create slinks to all these files so I do not have to be updating files around
+### Build the system
+Firstly, you need to create a new file user.nix in ~/dotfiles/nix-darwin/.config/nix-darwin with this contents:
+```nix
+{
+    username = "system_user";
+}
+```
+
+Then just run:
+```bash
+darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin#air
+```
+Important: Not use the path ~/.config/nix-darwin because nix does not seem to read well the symlink
+
+Note: air is the configuration for my macbook air, that I also use in my macbook pro from work 
+
+### Link the .dotfiles
+Clone this repo into ~. Then go to it and execute stow for every folder, like so:
+- stow alacritty
+- stow tmux
+- stow nvim
+- stow nix
+- stow nix-darwin
+
+## Install all plugins for neovim
+Once you have stowed de nvim folder, you need to run:
+```bash
+v ~/dotfiles/nvim/.config/nvim/nidstang/packer.lua
+```
+
+And the run the following commands:
+:source
+:PackerSync
+
+Then you only need to wait for all the plugins to be installed
+
+## Install all plugins for tmux
+Firstly you need to clone the tmp plugin system:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Now, in order to not get any errors, you should exit tmux and run:
+```bash
+tmux kill-server
+```
+
+That will kill all active sessions
+
+Then run tmux again and reload tmux enviroment config:
+```bash
+tmux source ~/.tmux.conf
+```
+
+Finally run: prefix+I for installing all plugins defined on .tmux.conf
