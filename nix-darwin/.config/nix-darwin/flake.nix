@@ -64,7 +64,7 @@
             "iina"
           ];
           onActivation.cleanup = "zap";
-      }
+      };
 
       # Enable alternative shell support in nix-darwin.
       # programs.fish.enable = true;
