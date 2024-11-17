@@ -11,8 +11,8 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
+    userConfig = import ./user.nix;
     configuration = { pkgs, config, ... }: {
-      userConfig = import ./user.nix;
 
       nixpkgs.config.allowUnfree = true;
       # List packages installed in system profile. To search by name, run:
@@ -20,6 +20,7 @@
       environment.systemPackages =
         [ pkgs.neovim
           pkgs.starship
+          pkgs.alacritty
           pkgs.fzf
           pkgs.mkalias
           pkgs.tmux
@@ -91,7 +92,7 @@
             nix-homebrew = {
                 enable = true;
                 enableRosetta = true;
-                user = userConfig.username;
+                user = "${userConfig.username}";
                 autoMigrate = true;
             };
         }
