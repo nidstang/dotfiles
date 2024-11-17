@@ -100,6 +100,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Hacer que prevalezca nix
+# export PATH=/run/current-system/sw/bin:$PATH
+
 source ~/.zsh_profile
 source ~/.zsh_work
 source ~/.zsh_custom

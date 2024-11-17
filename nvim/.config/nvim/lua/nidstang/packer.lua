@@ -95,15 +95,6 @@ use({
 })
 
 use({
-  "epwalsh/obsidian.nvim",
-  tag = "*",  -- recommended, use latest release instead of latest commit
-  requires = {
-    -- Required.
-    "nvim-lua/plenary.nvim",
-  },
-})
-
-use({
   "epwalsh/pomo.nvim",
   tag = "*",  -- Recommended, use latest release instead of latest commit
   requires = {
