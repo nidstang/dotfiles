@@ -20,6 +20,7 @@
         [ pkgs.neovim
           pkgs.starship
           pkgs.alacritty
+          pkgs.rustup
           pkgs.jetbrains.idea-ultimate
           pkgs.vscode
           pkgs.fzf
