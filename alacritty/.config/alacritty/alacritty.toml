@@ -2,7 +2,6 @@
 live_config_reload = true
 
 [window]
-decorations = "Buttonless"
 dynamic_padding = false
 padding = { x = 18, y = 16 }
 
