@@ -1,5 +1,5 @@
 require("nidstang")
-require("nidstang.lazy")
+-- require("nidstang.lazy")
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
