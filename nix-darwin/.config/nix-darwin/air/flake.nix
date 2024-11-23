@@ -76,6 +76,7 @@
           enable =  true;
           casks = [
             "iina"
+            "wezterm"
           ];
           onActivation.cleanup = "zap";
       };
