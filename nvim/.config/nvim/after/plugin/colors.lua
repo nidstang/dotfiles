@@ -1,5 +1,6 @@
-require('monokai-pro').setup({
-    filter = "spectrum",
-})
-
-vim.cmd [[colorscheme monokai-pro]]
+-- require('monokai-pro').setup({
+--     filter = "spectrum",
+-- })
+--
+-- vim.cmd [[colorscheme monokai-pro]]
+vim.cmd.colorscheme = 'catppuccin'
