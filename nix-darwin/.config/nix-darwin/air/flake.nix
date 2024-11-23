@@ -7,9 +7,14 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    nikitabobko-aerospace = {
+        url = "github:nikitabobko/homebrew-tap";
+        flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, nikitabobko-aerospace }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -77,6 +82,7 @@
           casks = [
             "iina"
             "wezterm"
+            "aerospace"
           ];
           onActivation.cleanup = "zap";
       };
@@ -108,6 +114,10 @@
                 enableRosetta = true;
                 user = "pablofernandezfranco";
                 autoMigrate = true;
+
+                taps = {
+                    "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
+                };
             };
         }
       ];
