@@ -14,5 +14,9 @@ personal() {
     cp ~/.npm_personal_rc ~/.npmrc
 }
 
+ff() {
+    aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
+}
+
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
