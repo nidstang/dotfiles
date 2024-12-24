@@ -24,15 +24,6 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
   spec = {
     {
-      "loctvl842/monokai-pro.nvim",
-      lazy = false,
-      priority = 1000,
-      config = function()
-        require("monokai-pro").setup()
-      end,
-    },
-
-    {
         "nvim-telescope/telescope.nvim",
         lazy = false,
         dependencies = {
@@ -47,16 +38,21 @@ require("lazy").setup({
         },
     },
     {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        priority = 1000,
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function () 
+        config = function ()
           local configs = require("nvim-treesitter.configs")
 
           configs.setup({
               ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
               sync_install = false,
               highlight = { enable = true },
-              indent = { enable = true },  
+              indent = { enable = true },
             })
         end
     },
@@ -84,5 +80,5 @@ require("lazy").setup({
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
 })

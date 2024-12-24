@@ -43,6 +43,13 @@ require'lspconfig'.lua_ls.setup {
   },
 }
 local cmp = require('cmp')
+local cmp_select = {behavior = cmp.SelectBehavior.Select}
+-- local cmp_mappings = lsp.defaults.cmp_mappings({
+--     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+--     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+--     ['<CR>'] = cmp.mapping.confirm({ select = true }),
+--     ['<C-Space>'] = cmp.mapping.complete(),
+-- })
 
 cmp.setup({
   sources = {
@@ -54,7 +61,19 @@ cmp.setup({
       vim.snippet.expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item();
+            else
+                fallback()
+            end
+    end),
+  }),
 })
 
 -- local lsp = require("lsp-zero")
