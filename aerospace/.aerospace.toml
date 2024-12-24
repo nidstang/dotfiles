@@ -141,6 +141,9 @@ alt-shift-enter = 'mode apps'
 alt-t = 'exec-and-forget open -a /Applications/Telegram.app'
 alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
 
+# fullscreen
+alt-f = 'fullscreen'
+
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]

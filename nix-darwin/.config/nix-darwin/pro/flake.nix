@@ -7,9 +7,14 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    nikitabobko-aerospace = {
+        url = "github:nikitabobko/homebrew-tap";
+        flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, nikitabobko-aerospace }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -17,13 +22,14 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.neovim
-          pkgs.starship
+        [ pkgs.starship
           pkgs.alacritty
           pkgs.rustup
           pkgs.jetbrains.idea-ultimate
           pkgs.vscode
+          pkgs.pre-commit
           pkgs.fzf
+          pkgs.ripgrep
           pkgs.glow
           pkgs.zoxide
           pkgs.lazygit
@@ -32,7 +38,6 @@
           pkgs.bat
           pkgs.mkalias
           pkgs.tmux
-          pkgs.nodejs_20
         ];
       
       system.activationScripts.applications.text = let
@@ -79,8 +84,13 @@
 
       homebrew = {
           enable =  true;
+	  brews = [
+            "neovim"
+	  ];
           casks = [
             "google-chrome"
+            "wezterm"
+            "aerospace"
           ];
           onActivation.cleanup = "zap";
       };
@@ -112,6 +122,10 @@
                 enableRosetta = true;
                 user = "pffranco";
                 autoMigrate = true;
+
+                taps = {
+                    "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
+                };
             };
         }
       ];
