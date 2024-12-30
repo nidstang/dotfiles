@@ -22,8 +22,7 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.neovim
-          pkgs.starship
+        [ pkgs.starship
           pkgs.alacritty
           pkgs.fzf
           pkgs.lazygit
@@ -79,10 +78,14 @@
 
       homebrew = {
           enable =  true;
+          brews = [
+            "neovim"
+          ];
           casks = [
             "iina"
             "wezterm"
             "aerospace"
+            "ghostty"
           ];
           onActivation.cleanup = "zap";
       };

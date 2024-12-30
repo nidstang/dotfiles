@@ -84,9 +84,9 @@
 
       homebrew = {
           enable =  true;
-	  brews = [
-            "neovim"
-	  ];
+          brews = [
+                "neovim"
+          ];
           casks = [
             "google-chrome"
             "wezterm"

@@ -1,0 +1,5 @@
+theme = catppuccin-mocha
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 18
+macos-titlebar-style = hidden
+cursor-style = block
