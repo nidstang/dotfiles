@@ -43,6 +43,9 @@ require("lazy").setup({
         priority = 1000,
     },
     {
+      "datsfilipe/vesper.nvim"
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
         config = function ()
