@@ -38,6 +38,7 @@
           pkgs.bat
           pkgs.mkalias
           pkgs.tmux
+          pkgs.carapace
         ];
       
       system.activationScripts.applications.text = let
@@ -67,23 +68,9 @@
 
       security.pam.enableSudoTouchIdAuth = true;
 
-      system.defaults = {
-          dock.autohide = true;
-          dock.mru-spaces = false;
-          # dock.persistent-others = [
-          #     "~/Downloads"
-          #     "~/workspace"
-          # ];
-          finder.AppleShowAllExtensions = true;
-          finder.CreateDesktop = false;
-          screencapture.location = "~/Pictures/screenshots";
-          NSGlobalDomain."com.apple.sound.beep.volume" = 0.00;
-          NSGlobalDomain."com.apple.mouse.tapBehavior" = 1; # eanbles tap to clikc
-          controlcenter.BatteryShowPercentage = true;
-      };
-
       homebrew = {
           enable =  true;
+          brewPrefix = "/opt/homebrew/bin/";
           brews = [
                 "neovim"
           ];
@@ -91,8 +78,12 @@
             "google-chrome"
             "wezterm"
             "aerospace"
+            "ghostty"
           ];
-          onActivation.cleanup = "zap";
+
+          onActivation = {
+            autoUpdate = true;
+          };
       };
 
       # Enable alternative shell support in nix-darwin.
@@ -122,6 +113,7 @@
                 enableRosetta = true;
                 user = "pffranco";
                 autoMigrate = true;
+                mutableTaps = true;
 
                 taps = {
                     "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
