@@ -31,14 +31,14 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/.local/bin/tmux-sessioniz
 -- lsp format
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format);
 
--- esc with jj stroke 
+-- esc with jj stroke
 vim.keymap.set("i", "jj", "<Esc>");
 
 -- keep in visual mode when I do > or < (this is amazing)
 vim.keymap.set("v", ">", ">gv");
 vim.keymap.set("v", "<", "<gv");
 
--- enter to insert 
+-- enter to insert
 vim.keymap.set("n", "<CR>", "ciw");
 
 vim.keymap.set("n", "<C-i>", "<C-a>");
@@ -62,3 +62,6 @@ vim.keymap.set("n", "]b", "<cmd>bnext<cr>", {
 
 -- lazygit
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>")
+
+-- Claude
+vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })

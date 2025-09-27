@@ -31,8 +31,9 @@
           pkgs.bat
           pkgs.mkalias
           pkgs.tmux
-          pkgs.nodejs_20
         ];
+
+      system.primaryUser = "pablofernandezfranco";
       
       system.activationScripts.applications.text = let
           env = pkgs.buildEnv {
@@ -58,24 +59,6 @@
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
-
-      security.pam.enableSudoTouchIdAuth = true;
-
-      system.defaults = {
-          dock.autohide = true;
-          dock.mru-spaces = false;
-          dock.persistent-others = [
-              "~/Downloads"
-              "~/workspace"
-          ];
-          finder.AppleShowAllExtensions = true;
-          finder.CreateDesktop = false;
-          screencapture.location = "~/Pictures/screenshots";
-          NSGlobalDomain."com.apple.sound.beep.volume" = 0.00;
-          NSGlobalDomain."com.apple.mouse.tapBehavior" = 1; # eanbles tap to clikc
-          controlcenter.BatteryShowPercentage = true;
-      };
-
       homebrew = {
           enable =  true;
           brews = [
@@ -87,7 +70,7 @@
             "aerospace"
             "ghostty"
           ];
-          onActivation.cleanup = "zap";
+          # onActivation.cleanup = "zap";
       };
 
       # Enable alternative shell support in nix-darwin.
