@@ -4,7 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
+    home-manager.url = "github:nix-community/home-manager";
+
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -14,7 +18,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, nikitabobko-aerospace }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, nikitabobko-aerospace, ... }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -63,6 +67,8 @@
           enable =  true;
           brews = [
             "neovim"
+            "zsh-vi-mode"
+            "orbstack"
           ];
           casks = [
             "iina"
@@ -94,6 +100,8 @@
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
+        home-manager.darwinModules.home-manager
+
         {
             nix-homebrew = {
                 enable = true;
@@ -105,6 +113,11 @@
                     "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
                 };
             };
+
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.pablofernandezfranco = import ./home;
         }
       ];
     };
