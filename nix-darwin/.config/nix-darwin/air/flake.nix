@@ -117,7 +117,11 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.pablofernandezfranco = import ./home;
+            home-manager.users.pablofernandezfranco = { config, pkgs, ... }: {
+              home.username = "pablofernandezfranco";
+              home.homeDirectory = "/Users/pablofernandezfranco";
+              home.stateVersion = "24.05";
+            };
         }
       ];
     };
