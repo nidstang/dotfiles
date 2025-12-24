@@ -24,4 +24,5 @@
   };
 
   home.file.".tmux.conf".source = ./config/tmux/.tmux.conf;
+  xdg.configFile."nvim".source = ./config/nvim;
 }
