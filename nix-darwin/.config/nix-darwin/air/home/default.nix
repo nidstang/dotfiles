@@ -17,6 +17,7 @@
     carapace
     starship
     obsidian
+    nodejs_20
   ];
 
   programs.tmux = {
