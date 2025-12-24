@@ -86,6 +86,11 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
+
+
+      devShells.arch64-darwin.default = pkgs.mkShell {
+        packages = [ pkgs.nodejs_22 pkgs.corepack ];
+      };
     };
   in
   {
