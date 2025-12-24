@@ -26,18 +26,14 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.starship
-          pkgs.alacritty
-          pkgs.fzf
-          pkgs.lazygit
-          pkgs.obsidian
-          pkgs.stow
-          pkgs.bat
+        [ pkgs.stow
           pkgs.mkalias
-          pkgs.tmux
         ];
 
       system.primaryUser = "pablofernandezfranco";
+      users.users.pablofernandezfranco = {
+        home = "/Users/pablofernandezfranco";
+      };
       
       system.activationScripts.applications.text = let
           env = pkgs.buildEnv {
@@ -66,15 +62,14 @@
       homebrew = {
           enable =  true;
           brews = [
-            "neovim"
             "zsh-vi-mode"
-            "orbstack"
           ];
           casks = [
             "iina"
             "wezterm"
             "aerospace"
             "ghostty"
+            "orbstack"
           ];
           # onActivation.cleanup = "zap";
       };
@@ -117,11 +112,8 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.pablofernandezfranco = { config, pkgs, ... }: {
-              home.username = "pablofernandezfranco";
-              home.homeDirectory = "/Users/pablofernandezfranco";
-              home.stateVersion = "24.05";
-            };
+
+            home-manager.users.pablofernandezfranco = import ./home;
         }
       ];
     };
