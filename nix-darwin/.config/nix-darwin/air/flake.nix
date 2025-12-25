@@ -66,7 +66,6 @@
           ];
           casks = [
             "iina"
-            "wezterm"
             "aerospace"
             "ghostty"
             "orbstack"

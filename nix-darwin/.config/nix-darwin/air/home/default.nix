@@ -5,12 +5,6 @@
   home.stateVersion = "24.05";
   home.enableNixpkgsReleaseCheck = false;
 
-  home.sessionPath = [
-    "/etc/bin"
-    # "/etc/profiles/per-user/${config.home.username}/bin"
-    # "/run/current-system/sw/bin"
-  ];
-
   home.packages = with pkgs; [
     ripgrep
     zoxide
@@ -24,6 +18,7 @@
     starship
     obsidian
     nodejs_20
+    claude-code
   ];
 
   programs.tmux = {
@@ -45,6 +40,7 @@
       v = "nvim";
       tmux-sessionizer = "~/.local/bin/tmux-sessionizer";
       lg = "lazygit";
+      rebuild-air-system = "sudo darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/air#air";
     };
 
       initContent = ''
