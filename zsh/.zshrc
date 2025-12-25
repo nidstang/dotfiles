@@ -104,5 +104,40 @@ source $ZSH/oh-my-zsh.sh
 # export PATH=/run/current-system/sw/bin:$PATH
 
 source ~/.zsh_profile
-source ~/.zsh_work
 source ~/.zsh_custom
+source ~/.zsh_work
+
+# pnpm
+export PNPM_HOME="/Users/pablofernandezfranco/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Load zvm plugin install by nix-darwin brew
+source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+# this disable the cursor change in insert mode because I dont like it
+ZVM_CURSOR_STYLE_ENABLED=false
+
+# Ensure Homebrew is after Nix paths
+if [ -d /opt/homebrew/bin ]; then
+  path=(${path:#/opt/homebrew/bin} /opt/homebrew/bin)
+fi
+if [ -d /opt/homebrew/sbin ]; then
+  path=(${path:#/opt/homebrew/sbin} /opt/homebrew/sbin)
+fi
+
+# Nix-darwin per-user profile first (if present)
+if [[ -d "/etc/profiles/per-user/$USER/bin" ]]; then
+  path=("/etc/profiles/per-user/$USER/bin" $path)
+fi
+
+# Keep system profile early too
+if [[ -d "/run/current-system/sw/bin" ]]; then
+  path=("/run/current-system/sw/bin" $path)
+fi
+
+typeset -U path PATH
+export PATH
+rehash

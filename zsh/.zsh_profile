@@ -1,10 +1,18 @@
-alias vim=nvim
-alias v=nvim
-alias python=python3
-alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
-alias lg=lazygit
+# alias vim=nvim
+# alias v=nvim
+# alias python=python3
+# alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
+# alias lg=lazygit
 
 bindkey -s ^f "tmux-sessionizer\n"
+
+air() {
+  sudo darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/air#air
+}
+
+pro() {
+  sudo darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/pro#pro
+}
 
 work() {
     cp ~/.npm_work_rc ~/.npmrc
@@ -18,5 +26,118 @@ ff() {
     aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
 }
 
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+c() {
+  claude \
+    --append-system-prompt "Responde sólo con el comando. No lo metas dentro de backticks ni nada de markdown." \
+    -p "Dame un comando de terminal para $*"
+}
+
+cr() {
+  claude \
+    --append-system-prompt "Responde sólo con el comando. No lo metas dentro de backticks ni nada de markdown." \
+    -p "Dame un comando de rg para buscar $*"
+}
+
+cri() {
+  claude \
+    --append-system-prompt "Responde sólo con el comando. No lo metas dentro de backticks ni nada de markdown. Si el comando incluye una expresión regular, agrega una explicación" \
+    -p "Dame un comando de rg para buscar $*"
+}
+
+ce() {
+  claude \
+    --append-system-prompt 'Responde siempre en castellano.
+El output se mostrará directamente en una terminal, así que:
+- Responde con texto sin formatear.
+- MUY IMPORTANTE: No uses formato markdown NI backticks.
+- Usa ejemplos y títulos claros.' \
+    -p "Dame 3 ejemplos de uso para el comando $*."
+}
+
+cc() {
+  claude --continue -p "$*"
+}
+
+with() {
+  if [[ $# -lt 2 ]]; then
+    echo "Usage: with <variable_name> <command> [args...]"
+    echo "Example: with NPM_AUTH npm publish"
+    return 1
+  fi
+
+  local var_name="$1"
+  shift
+  local command_args="$@"
+
+  echo "Retrieving credential for $var_name from Bitwarden..."
+
+  # Try to get as password first, then as notes, then as item
+  local credential=$(bw get password "$var_name" 2>/dev/null)
+  if [[ -z "$credential" ]]; then
+    credential=$(bw get notes "$var_name" 2>/dev/null)
+  fi
+  if [[ -z "$credential" ]]; then
+    # Try to get the whole item and extract password field
+    credential=$(bw get item "$var_name" 2>/dev/null | jq -r '.login.password // empty' 2>/dev/null)
+  fi
+
+  if [[ $? -ne 0 || -z "$credential" ]]; then
+    echo "Vault appears to be locked. Attempting to unlock..."
+
+    # Create a temporary file to capture the unlock output
+    local temp_file=$(mktemp)
+
+    # Run bw unlock with output redirected to temp file but allow interactive input
+    echo "Please enter your Bitwarden master password:"
+    bw unlock > "$temp_file" 2>&1
+    local unlock_status=$?
+
+    if [[ $unlock_status -eq 0 ]]; then
+      # Extract session key from unlock output
+      local session_key=$(grep 'export BW_SESSION=' "$temp_file" | sed 's/.*export BW_SESSION="\([^"]*\)".*/\1/')
+
+      # Clean up temp file
+      rm -f "$temp_file"
+
+      if [[ -n "$session_key" ]]; then
+        export BW_SESSION="$session_key"
+        echo "Vault unlocked successfully. Retrying credential retrieval..."
+
+        # Retry getting the credential with all methods
+        credential=$(bw get password "$var_name" 2>/dev/null)
+        if [[ -z "$credential" ]]; then
+          credential=$(bw get notes "$var_name" 2>/dev/null)
+        fi
+        if [[ -z "$credential" ]]; then
+          credential=$(bw get item "$var_name" 2>/dev/null | jq -r '.login.password // empty' 2>/dev/null)
+        fi
+
+        if [[ $? -ne 0 || -z "$credential" ]]; then
+          echo "Error: Could not retrieve credential for '$var_name' after unlocking"
+          echo "Make sure the item '$var_name' exists in your vault"
+          return 1
+        fi
+      else
+        echo "Error: Could not extract session key from unlock output"
+        echo "Debug: Unlock output was:"
+        cat "$temp_file"
+        return 1
+      fi
+    else
+      echo "Error: Could not unlock Bitwarden vault"
+      cat "$temp_file"
+      rm -f "$temp_file"
+      return 1
+    fi
+  fi
+
+  echo "Executing: env $var_name=*** $command_args"
+  env "$var_name=$credential" $command_args
+}
+
+# command -v starship >/dev/null && eval "$(starship init zsh)"
+# command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
+# export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+# zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+# source <(carapace _carapace)
