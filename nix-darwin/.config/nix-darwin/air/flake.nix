@@ -62,15 +62,20 @@
       homebrew = {
           enable =  true;
           brews = [
-            "zsh-vi-mode"
+            # do not install brews, only casks
+            # cli programs should be installed by nixpkgs (flake.nix or default.nix)
+          ];
+          taps = [
+            "nikitabobko/homebrew-tap"  # this is managed by nix-homebrew but it must be here for "zap" to work
           ];
           casks = [
             "iina"
             "aerospace"
             "ghostty"
             "orbstack"
+            "obsidian"
           ];
-          # onActivation.cleanup = "zap";
+          onActivation.cleanup = "zap";
       };
 
       # Enable alternative shell support in nix-darwin.

@@ -16,7 +16,6 @@
     lazygit
     carapace
     starship
-    obsidian
     nodejs_20
     claude-code
   ];
@@ -41,6 +40,7 @@
       tmux-sessionizer = "~/.local/bin/tmux-sessionizer";
       lg = "lazygit";
       rebuild-air-system = "sudo darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/air#air";
+      update-air-system = "nix flake update && rebuild-air-system";
     };
 
       initContent = ''
@@ -76,9 +76,4 @@
   home.file.".tmux.conf".source = ./config/tmux/.tmux.conf;
   xdg.configFile."nvim".source = ./config/nvim;
   xdg.configFile."ghostty".source = ./config/ghostty;
-  # home.file.".zprofile".text = ''
-  #   if [ -e /etc/static/zshrc ]; then
-  #     source /etc/static/zshrc
-  #   fi
-  # '';
 }
