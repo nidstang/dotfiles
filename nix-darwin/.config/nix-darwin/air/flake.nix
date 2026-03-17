@@ -64,6 +64,7 @@
           brews = [
             # do not install brews, only casks
             # cli programs should be installed by nixpkgs (flake.nix or default.nix)
+            "opencode"
           ];
           taps = [
             "nikitabobko/homebrew-tap"  # this is managed by nix-homebrew but it must be here for "zap" to work
@@ -75,7 +76,11 @@
             "orbstack"
             "obsidian"
           ];
-          onActivation.cleanup = "zap";
+          onActivation = {
+            cleanup = "zap";
+            autoUpdate = true;
+            upgrade = true;
+          };
       };
 
       # Enable alternative shell support in nix-darwin.

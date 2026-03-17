@@ -85,6 +85,92 @@ require("lazy").setup({
       config = function()
         require("claude-code").setup()
       end
+    },
+    {
+      "folke/which-key.nvim",
+      event = "VeryLazy",
+      opts = {
+        delay = 500,
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      },
+      keys = {
+        {
+          "<leader>?",
+          function()
+            require("which-key").show({ global = false })
+          end,
+          desc = "Buffer Local Keymaps (which-key)",
+        },
+      },
+    },   
+    {
+      "NickvanDyke/opencode.nvim",
+      dependencies = {
+        -- Recommended for `ask()` and `select()`.
+        -- Required for `snacks` provider.
+        ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+        { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+      },
+      config = function()
+        ---@type opencode.Opts
+        vim.g.opencode_opts = {
+          -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+        }
+
+        -- Required for `opts.events.reload`.
+        vim.o.autoread = true
+
+        -- Recommended/example keymaps.
+        local function is_opencode_buffer()
+          return vim.bo.filetype == "opencode" or vim.bo.buftype == "terminal"
+        end
+
+        vim.keymap.set({ "n", "x" }, "<leader>oa", function()
+          if not is_opencode_buffer() then
+            require("opencode").ask("@this: ", { submit = true })
+          end
+        end, { desc = "Ask opencode…" })
+        vim.keymap.set({ "n", "x" }, "<leader>os", function()
+          if not is_opencode_buffer() then
+            require("opencode").select()
+          end
+        end, { desc = "Execute opencode action…" })
+        vim.keymap.set({ "n", "t" }, "<leader>ot", function()
+          if not is_opencode_buffer() then
+            require("opencode").toggle()
+          end
+        end, { desc = "Toggle opencode" })
+
+        vim.keymap.set({ "n", "x" }, "go",  function()
+          if not is_opencode_buffer() then
+            return require("opencode").operator("@this ")
+          end
+        end, { desc = "Add range to opencode", expr = true })
+        vim.keymap.set("n",          "goo", function()
+          if not is_opencode_buffer() then
+            return require("opencode").operator("@this ") .. "_"
+          end
+        end, { desc = "Add line to opencode", expr = true })
+
+        vim.keymap.set("n", "<leader>ok", function()
+          if not is_opencode_buffer() then
+            require("opencode").command("session.half.page.up")
+          end
+        end, { desc = "Scroll opencode up" })
+        vim.keymap.set("n", "<leader>oj", function()
+          if not is_opencode_buffer() then
+            require("opencode").command("session.half.page.down")
+          end
+        end, { desc = "Scroll opencode down" })
+
+        vim.keymap.set("n", "<leader>of", function()
+          if not is_opencode_buffer() then
+            vim.cmd("wincmd w")
+          end
+        end, { desc = "Focus opencode window" })
+      end,
     }
   },
   -- Configure any other settings here. See the documentation for more details.
@@ -92,4 +178,6 @@ require("lazy").setup({
   install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true, notify = false },
+}, {
+    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
