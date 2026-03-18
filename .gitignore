@@ -1,1 +1,11 @@
 nvim/.config/nvim/plugin
+bin/.local/bin/bash (kiro-cli-term)
+bin/.local/bin/bash (qterm)
+bin/.local/bin/fish (kiro-cli-term)
+bin/.local/bin/fish (qterm)
+bin/.local/bin/kiro-cli
+bin/.local/bin/kiro-cli-chat
+bin/.local/bin/kiro-cli-term
+bin/.local/bin/
+bin/.local
+
