@@ -62,4 +62,7 @@
     enable = true;
     enableZshIntegration = true;
   };
+
+  home.file.".claude/skills/interview-me/SKILL.md".source =
+    ../files/claude/skills/interview-me/SKILL.md;
 }
