@@ -115,7 +115,7 @@ case ":$PATH:" in
 esac
 
 # Load zvm plugin install by nix-darwin brew
-source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # this disable the cursor change in insert mode because I dont like it
 ZVM_CURSOR_STYLE_ENABLED=false
