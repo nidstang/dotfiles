@@ -3,6 +3,7 @@ alias v=nvim
 alias python=python3
 alias tmux-sessionizer=~/.local/bin/tmux-sessionizer
 alias lg=lazygit
+alias oc='NODE_EXTRA_CA_CERTS="$HOME/workspace/idealista-cert.pem" opencode'
 
 bindkey -s ^f "tmux-sessionizer\n"
 
