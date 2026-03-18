@@ -1,0 +1,60 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "idealista-webui": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Idealista open Web UI",
+      "options": {
+        "baseURL": "https://gpt4all.sys.idealista/api",
+        "apiKey": "sk-d3b31c4cb09a4377b7182c1956723ca6"
+      },
+      "models": {
+        "gemini-2.5-pro": {
+          "description": "Gemini 2.5 Pro",
+          "tools": true
+        },
+        "gemini-2.5-flash": {
+          "description": "Gemini 2.5 Pro",
+          "tools": true
+        },
+        "gpt-5.2-codex": {
+          "description": "Codex gpt 5",
+          "tools": true
+        }
+      }
+    },
+
+    "idealista-litellm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Idealista LiteLLM",
+      "options": {
+        "baseURL": "https://litellm.sys.idealista/v1",
+        "profile": "ID-Devops"
+      },
+      "models": {
+        "eu.anthropic.claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6 (EU)",
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        },
+        "eu.anthropic.claude-haiku-4-5-20251001-v1:0": {
+          "name": "Claude Haiku 4.5 (EU)",
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        },
+        "eu.anthropic.claude-opus-4-6-v1": {
+          "name": "Claude Opus 4.6 (EU)",
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "enabled_providers": ["idealista-webui", "idealista-litellm"]
+}
