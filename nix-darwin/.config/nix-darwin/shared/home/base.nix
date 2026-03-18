@@ -49,6 +49,8 @@
           ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null
         fi
       fi
+
+      bindkey -s '^f' "tmux-sessionizer\n"
     '';
   };
 
