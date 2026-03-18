@@ -78,6 +78,14 @@ require("lazy").setup({
     {"neovim/nvim-lspconfig"},
     {"hrsh7th/cmp-nvim-lsp"},
     {"hrsh7th/nvim-cmp"},
+    {"greggh/claude-code.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim", -- Required for git operations
+      },
+      config = function()
+        require("claude-code").setup()
+      end
+    }
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.

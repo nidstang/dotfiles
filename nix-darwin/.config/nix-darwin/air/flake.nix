@@ -4,7 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
+    home-manager.url = "github:nix-community/home-manager";
+
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -14,7 +18,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, nikitabobko-aerospace }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, nikitabobko-aerospace, ... }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -22,17 +26,14 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.starship
-          pkgs.alacritty
-          pkgs.fzf
-          pkgs.lazygit
-          pkgs.obsidian
-          pkgs.stow
-          pkgs.bat
+        [ pkgs.stow
           pkgs.mkalias
-          pkgs.tmux
-          pkgs.nodejs_20
         ];
+
+      system.primaryUser = "pablofernandezfranco";
+      users.users.pablofernandezfranco = {
+        home = "/Users/pablofernandezfranco";
+      };
       
       system.activationScripts.applications.text = let
           env = pkgs.buildEnv {
@@ -58,36 +59,28 @@
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
-
-      security.pam.enableSudoTouchIdAuth = true;
-
-      system.defaults = {
-          dock.autohide = true;
-          dock.mru-spaces = false;
-          dock.persistent-others = [
-              "~/Downloads"
-              "~/workspace"
-          ];
-          finder.AppleShowAllExtensions = true;
-          finder.CreateDesktop = false;
-          screencapture.location = "~/Pictures/screenshots";
-          NSGlobalDomain."com.apple.sound.beep.volume" = 0.00;
-          NSGlobalDomain."com.apple.mouse.tapBehavior" = 1; # eanbles tap to clikc
-          controlcenter.BatteryShowPercentage = true;
-      };
-
       homebrew = {
           enable =  true;
           brews = [
-            "neovim"
+            # do not install brews, only casks
+            # cli programs should be installed by nixpkgs (flake.nix or default.nix)
+            "opencode"
+          ];
+          taps = [
+            "nikitabobko/homebrew-tap"  # this is managed by nix-homebrew but it must be here for "zap" to work
           ];
           casks = [
             "iina"
-            "wezterm"
             "aerospace"
             "ghostty"
+            "orbstack"
+            "obsidian"
           ];
-          onActivation.cleanup = "zap";
+          onActivation = {
+            cleanup = "zap";
+            autoUpdate = true;
+            upgrade = true;
+          };
       };
 
       # Enable alternative shell support in nix-darwin.
@@ -111,6 +104,8 @@
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
+        home-manager.darwinModules.home-manager
+
         {
             nix-homebrew = {
                 enable = true;
@@ -122,6 +117,12 @@
                     "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
                 };
             };
+
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+
+            home-manager.users.pablofernandezfranco = import ./home;
         }
       ];
     };

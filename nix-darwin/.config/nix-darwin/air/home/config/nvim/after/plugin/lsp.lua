@@ -4,12 +4,12 @@ vim.opt.signcolumn = 'yes'
 
 -- Add cmp_nvim_lsp capabilities settings to lspconfig
 -- This should be executed before you configure any language server
-local lspconfig_defaults = require('lspconfig').util.default_config
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-  'force',
-  lspconfig_defaults.capabilities,
-  require('cmp_nvim_lsp').default_capabilities()
-)
+-- local lspconfig_defaults = vim.lsp.config.util.default_config
+-- lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+--   'force',
+--   lspconfig_defaults.capabilities,
+--   require('cmp_nvim_lsp').default_capabilities()
+-- )
 
 -- This is where you enable features that only work
 -- if there is a language server active in the file
@@ -34,16 +34,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Lua config
-require'lspconfig'.lua_ls.setup {
-  settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-    },
-  },
-}
+-- vim.lsp.config['lua_ls'].setup {
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         -- Get the language server to recognize the `vim` global
+--         globals = {'vim'},
+--       },
+--     },
+--   },
+-- }
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 -- local cmp_mappings = lsp.defaults.cmp_mappings({
