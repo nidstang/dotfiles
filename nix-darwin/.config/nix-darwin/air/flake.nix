@@ -2,9 +2,9 @@
   description = "Pablo nix-darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    home-manager.url = "github:nix-community/home-manager";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
 
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -39,7 +39,7 @@
           env = pkgs.buildEnv {
             name = "system-applications";
             paths = config.environment.systemPackages;
-            pathsToLink = "/Applications";
+            pathsToLink = ["/Applications"];
           };
         in
           pkgs.lib.mkForce ''

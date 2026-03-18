@@ -2,9 +2,12 @@
   description = "Pablo nix-darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
@@ -14,7 +17,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, nikitabobko-aerospace }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, nikitabobko-aerospace, ... }:
   let
     configuration = { pkgs, config, ... }: {
 
@@ -22,30 +25,20 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.starship
-          pkgs.alacritty
-          pkgs.rustup
-          pkgs.jetbrains.idea-ultimate
-          pkgs.vscode
-          pkgs.pre-commit
-          pkgs.fzf
-          pkgs.ripgrep
-          pkgs.glow
-          pkgs.zoxide
-          pkgs.lazygit
-          pkgs.obsidian
-          pkgs.stow
-          pkgs.bat
+        [ pkgs.stow
           pkgs.mkalias
-          pkgs.tmux
-          pkgs.carapace
         ];
+
+      system.primaryUser = "pffranco";
+      users.users.pffranco = {
+        home = "/Users/pffranco";
+      };
       
-      system.activationScripts.applications.text = let
+        system.activationScripts.applications.text = let
           env = pkgs.buildEnv {
             name = "system-applications";
             paths = config.environment.systemPackages;
-            pathsToLink = "/Applications";
+            pathsToLink = ["/Applications"];
           };
         in
           pkgs.lib.mkForce ''
@@ -66,23 +59,29 @@
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
-      security.pam.enableSudoTouchIdAuth = true;
+      security.pam.services.sudo_local.touchIdAuth = true;
 
       homebrew = {
           enable =  true;
-          brewPrefix = "/opt/homebrew/bin/";
           brews = [
-                "neovim"
+            "opencode"
+          ];
+          taps = [
+            "nikitabobko/homebrew-tap"
           ];
           casks = [
             "google-chrome"
-            "wezterm"
             "aerospace"
             "ghostty"
+            "visual-studio-code"
+            "intellij-idea"
+            "obsidian"
+            "orbstack"
           ];
 
           onActivation = {
             autoUpdate = true;
+            upgrade = true;
           };
       };
 
@@ -107,18 +106,23 @@
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
+        home-manager.darwinModules.home-manager
         {
             nix-homebrew = {
                 enable = true;
                 enableRosetta = true;
                 user = "pffranco";
                 autoMigrate = true;
-                mutableTaps = true;
 
                 taps = {
                     "nikitabobko/homebrew-tap" = nikitabobko-aerospace;
                 };
             };
+
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.pffranco = import ./home;
         }
       ];
     };
