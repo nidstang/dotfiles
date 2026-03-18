@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
@@ -13,7 +13,7 @@
     glow
   ];
 
-  programs.zsh.enable = false;
+  programs.zsh.enable = lib.mkForce false;
 
   programs.zsh.shellAliases = {
     rebuild-pro-system = "sudo darwin-rebuild switch --flake ~/dotfiles/nix-darwin/.config/nix-darwin/pro#pro";
