@@ -64,6 +64,7 @@
       homebrew = {
           enable =  true;
           brews = [
+            "node"
             "opencode"
           ];
           taps = [
