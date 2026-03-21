@@ -8,7 +8,7 @@
   home.username = "pffranco";
 
   home.packages = with pkgs; [
-    nodejs_22
+    fnm
     pre-commit
     glow
   ];
@@ -18,6 +18,10 @@
     update-pro-system = "nix flake update && rebuild-pro-system";
     # oc = "NODE_EXTRA_CA_CERTS="/ruta/a/tu/empresa-ca.pem";
   };
+
+  programs.zsh.initExtra = ''
+    eval "$(fnm env --use-on-cd)"
+  '';
 
   home.file.".tmux.conf".source = ../../air/home/config/tmux/.tmux.conf;
   xdg.configFile."nvim".source = ../../air/home/config/nvim;
