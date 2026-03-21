@@ -1,5 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/mcp"]
+    }
+  },
   "provider": {
     "idealista-webui": {
       "npm": "@ai-sdk/openai-compatible",
