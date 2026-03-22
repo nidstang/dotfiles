@@ -1,0 +1,30 @@
+[metadata]
+name = "casks"
+description = "List and manage Homebrew casks"
+requirements = ["brew"]
+
+[source]
+command = [
+  "brew list --casks"
+]
+
+[preview]
+command = "brew info '{}'"
+
+[ui]
+layout = "portrait"
+preview_panel = { size = 20, header = "{split:=:0}", footer = "ctrl-u: update ctrl-d: uinstall" }
+
+[keybindings]
+ctrl-u = "actions:upgrade"
+ctrl-d = "actions:uninstall"
+
+[actions.upgrade]
+description = "Upgrade the selected package"
+command = "brew upgrade '{}'"
+mode = "execute"
+
+[actions.uninstall]
+description = "Uninstall the selected package"
+command = "brew uninstall '{}'"
+mode = "execute"
