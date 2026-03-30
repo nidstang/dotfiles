@@ -11,6 +11,8 @@
     fnm
     pre-commit
     glow
+    fd
+    television
   ];
 
   programs.zsh.shellAliases = {
