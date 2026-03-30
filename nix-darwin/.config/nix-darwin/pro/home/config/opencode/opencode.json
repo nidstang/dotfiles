@@ -1,5 +1,45 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "github-copilot/gpt-5.3-codex",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "github-copilot/claude-opus-4.6",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "review-origin-branch": {
+      "description": "Hace una review de código sobre el nombre de la rama en origin comprobando buenas prácticas y potenciales bugs",
+      "mode": "subagent",
+      "model": "github-copilot/claude-opus-4.6",
+      "prompt": "Haz una review de código sobre el nombre de la rama en origin. Focalizate en buenas prácticas, performance, mantenibilidad y seguridad",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    },
+    "review": {
+      "description": "Hace una review de la implementación actual comprobando buenas prácticas y potenciales bugs",
+      "mode": "subagent",
+      "model": "github-copilot/claude-opus-4.6",
+      "prompt": "Haz una review de la implementación actual. Focalizate en buenas prácticas, performance, mantenibilidad y seguridad",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    }
+  },
   "mcp": {
     "jira": {
       "type": "local",
@@ -61,6 +101,5 @@
         }
       }
     }
-  },
-  "enabled_providers": ["idealista-webui", "idealista-litellm"]
+  }
 }
