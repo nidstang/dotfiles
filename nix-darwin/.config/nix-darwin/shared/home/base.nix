@@ -65,6 +65,10 @@
 
   home.file.".claude/skills/interview-me/SKILL.md".source =
     ../files/claude/skills/interview-me/SKILL.md;
+  home.file.".claude/skills/prd-to-plan/SKILL.md".source =
+    ../files/claude/skills/prd-to-plan/SKILL.md;
+  home.file.".claude/skills/write-a-prd/SKILL.md".source =
+    ../files/claude/skills/write-a-prd/SKILL.md;
   xdg.configFile."television/config.toml".source = ../files/television/config.toml;
   xdg.configFile."television/cable/formulas.toml".source = ../files/television/cable/formulas.toml;
   xdg.configFile."television/cable/casks.toml".source = ../files/television/cable/casks.toml;

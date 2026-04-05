@@ -1,5 +1,5 @@
 ---
-name: inverview-me
+name: interview-me
 description: Entrevista al usuario sin descanso sobre un plan o diseño hasta alcanzar un entendimiento compartido, resolviendo cada rama del árbol de decisiones. Usar cuando el usuario quiera poner a prueba un plan, que lo interroguen sobre su diseño, o mencione "grílleame".
 ---
 
