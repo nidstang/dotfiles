@@ -1,3 +1,8 @@
+---
+name: prd-to-json
+description: Convierte un PRD en un archivo PRD.json estructurado con tareas en vertical slices. Úsalo cuando el usuario quiera compilar un PRD a JSON o generar un archivo de tareas verificables.
+---
+
 Lee mi archivo .md que te paso donde está el PRD y compílalo en un archivo estrictamente estructurado llamado `PRD.json` (si ya existe un PRD.json preguntale al usuario que hacer)
 
 Cada elemento de mi feature debe convertirse en un objeto JSON dentro de un array principal. Debes inferir los pasos y criterios de aceptación específicos para cada tarea.
