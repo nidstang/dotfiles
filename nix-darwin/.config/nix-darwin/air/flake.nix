@@ -64,6 +64,8 @@
           brews = [
             # do not install brews, only casks
             # cli programs should be installed by nixpkgs (flake.nix or default.nix)
+            # but opencode better to get the latest
+            "node"
             "opencode"
           ];
           taps = [
@@ -75,6 +77,7 @@
             "ghostty"
             "orbstack"
             "obsidian"
+            "claude-code"
           ];
           onActivation = {
             cleanup = "zap";
