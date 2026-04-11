@@ -12,8 +12,7 @@
   };
 
   home.packages = with pkgs; [
-    nodejs_20
-    claude-code
+    fnm
     fd
     television
   ];
@@ -25,7 +24,7 @@
 
   programs.zsh.initExtra = ''
     eval "$(tv init zsh)"
-
+    eval "$(fnm env --use-on-cd)"
   '';
 
   home.file.".tmux.conf".source = ./config/tmux/.tmux.conf;
