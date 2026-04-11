@@ -78,6 +78,7 @@
             "intellij-idea"
             "obsidian"
             "orbstack"
+            "claude-code"
           ];
 
           onActivation = {
