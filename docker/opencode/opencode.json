@@ -10,6 +10,15 @@
         "edit": true,
         "bash": true
       }
+    },
+    "codex-personal": {
+      "mode": "primary",
+      "model": "openai/gpt-5.3-codex",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
     }
   }
 }

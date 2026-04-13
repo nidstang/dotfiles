@@ -1,10 +1,10 @@
 # ralph.sh
-# Uso: ralph <iteraciones> [PRD.json] [branch-name] [opencode|claude]
+# Uso: ralph <iteraciones> [PRD.json] [branch-name] [opencode|claude] [modelo]
 
 set -e
 
 if [ -z "$1" ]; then
-  echo "Uso: ralph <iteraciones> [PRD.json] [branch-name] [opencode|claude]"
+  echo "Uso: ralph <iteraciones> [PRD.json] [branch-name] [opencode|claude] [modelo]"
   exit 1
 fi
 
@@ -16,14 +16,31 @@ if [[ "$AGENT" != "opencode" && "$AGENT" != "claude" ]]; then
   exit 1
 fi
 
+if [[ "$AGENT" == "opencode" ]]; then
+  MODEL="${5:-codex}"
+else
+  MODEL="${5:-opus}"
+fi
+
 WORKSPACE="$(pwd)"
 
 if [ -n "$3" ]; then
   REPO_ROOT=$(git rev-parse --show-toplevel)
   WORKTREE_PATH="${REPO_ROOT}/../$(basename "$REPO_ROOT")-$3"
-  echo "Creando worktree para rama '$3' en $WORKTREE_PATH"
-  git worktree add -b "$3" "$WORKTREE_PATH" develop
+  if [ -d "$WORKTREE_PATH" ]; then
+    echo "Worktree ya existe en $WORKTREE_PATH, reutilizando."
+  elif git show-ref --verify --quiet "refs/heads/$3"; then
+    echo "Rama '$3' ya existe. Creando worktree en $WORKTREE_PATH"
+    git worktree add "$WORKTREE_PATH" "$3"
+  else
+    echo "Creando worktree con nueva rama '$3' en $WORKTREE_PATH"
+    git worktree add -b "$3" "$WORKTREE_PATH" develop
+  fi
   WORKSPACE="$WORKTREE_PATH"
+  # Copiar ficheros no trackeados necesarios al worktree
+  ORIG_DIR="$(pwd)"
+  [ -f "$ORIG_DIR/$PRD_FILE" ] && cp "$ORIG_DIR/$PRD_FILE" "$WORKSPACE/$PRD_FILE"
+  [ -f "$ORIG_DIR/progress.txt" ] && cp "$ORIG_DIR/progress.txt" "$WORKSPACE/progress.txt"
 fi
 
 LABEL="${3:+$3/}${AGENT}"
@@ -47,8 +64,7 @@ REGLAS DEL ENTORNO (¡CRÍTICO LÉELO ANTES DE EJECUTAR NADA!):
    - Mantén los cambios pequeños. Calidad sobre velocidad.
 
 3. FEEDBACK LOOPS (Obligatorio):
-   - Para instalar dependencias en idealista.com.static, debes de ejecutar el comando make deps dentro de idealista.com.static
-   - Ejecuta los comandos de validación de idealista.com.static/ (pnpm run check, pnpm run build).
+   - Ejecuta los comandos de validación que encuentres
    - NO des la tarea por válida si fallan. Arréglalos primero.
 
 4. ACTUALIZAR ESTADO:
@@ -79,14 +95,17 @@ for ((i=1; i<=$1; i++)); do
     result=$(docker run "${COMMON_ARGS[@]}" \
       -v "$HOME/.local/share/opencode/auth.json:/tmp/home/.local/share/opencode/auth.json:ro" \
       -v "$HOME/.cache/opencode:/tmp/home/.cache/opencode" \
-      opencode run --agent codex "$PROMPT")
+      opencode run --agent "$MODEL" "$PROMPT")
   else
     CLAUDE_TMP=$(mktemp -d /tmp/claude-XXXXXX)
     cp -r "$HOME/.claude/." "$CLAUDE_TMP/"
-    security find-generic-password -s "Claude Code-credentials" -w > "$CLAUDE_TMP/credentials.json"
-    result=$(docker run "${COMMON_ARGS[@]}" \
-      -v "$CLAUDE_TMP:/tmp/home/.claude:ro" \
-      claude claude -p "$PROMPT")
+    security find-generic-password -s "Claude Code-credentials" -w > "$CLAUDE_TMP/.credentials.json"
+    RESULT_FILE=$(mktemp /tmp/claude-result-XXXXXX)
+    docker run "${COMMON_ARGS[@]}" \
+      -v "$CLAUDE_TMP:/tmp/home/.claude" \
+      claude --model "$MODEL" --dangerously-skip-permissions -p "$PROMPT" 2>&1 | tee "$RESULT_FILE"
+    result=$(cat "$RESULT_FILE")
+    rm -f "$RESULT_FILE"
     rm -rf "$CLAUDE_TMP"
   fi
 
@@ -96,14 +115,14 @@ for ((i=1; i<=$1; i++)); do
 
   if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
     echo "PRD completado al 100%. Saliendo del bucle."
-    curl -s -G "http://api.callmebot.com/text.php" \
+    curl -s -o /dev/null -G "http://api.callmebot.com/text.php" \
       --data-urlencode "user=Pablinger" \
       --data-urlencode "text=[$LABEL] PRD DONE in $i iterations"
     exit 0
   fi
 
   echo "Iteración $i finalizada. Pausando 5 segundos..."
-  curl -s -G "http://api.callmebot.com/text.php" \
+  curl -s -o /dev/null -G "http://api.callmebot.com/text.php" \
     --data-urlencode "user=Pablinger" \
     --data-urlencode "text=[$LABEL] Iter $i/$1 done - $REMAINING tasks remaining"
   sleep 5
@@ -111,6 +130,6 @@ done
 
 REMAINING=$(grep -c '"passes": false' "$WORKSPACE/$PRD_FILE" 2>/dev/null || echo "?")
 echo "Límite de iteraciones alcanzado ($1)."
-curl -s -G "http://api.callmebot.com/text.php" \
+curl -s -o /dev/null -G "http://api.callmebot.com/text.php" \
   --data-urlencode "user=Pablinger" \
   --data-urlencode "text=[$LABEL] LIMIT reached after $1 iterations - $REMAINING tasks remaining"
