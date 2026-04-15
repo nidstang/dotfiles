@@ -64,7 +64,7 @@ REGLAS DEL ENTORNO (¡CRÍTICO LÉELO ANTES DE EJECUTAR NADA!):
    - Mantén los cambios pequeños. Calidad sobre velocidad.
 
 3. FEEDBACK LOOPS (Obligatorio):
-   - Ejecuta los comandos de validación que encuentres
+   - Ejecuta los comandos de validación que encuentres en el apartado validación del AGENT.md
    - NO des la tarea por válida si fallan. Arréglalos primero.
 
 4. ACTUALIZAR ESTADO:
@@ -72,7 +72,7 @@ REGLAS DEL ENTORNO (¡CRÍTICO LÉELO ANTES DE EJECUTAR NADA!):
    - Añade un resumen al final de progress.txt: ID de tarea, archivos cambiados, decisiones técnicas, bloqueos.
 
 5. COMMIT:
-   - Haz un git commit detallado empezando por el ID de la tarea, ej: '[TASK-1] Implementado login'. Mete en el commit SOLO los ficheros que tu has modificado en esta tarea. No pongas nada de Co-authored by.
+   - Haz un git commit detallado empezando por el ID de jira que puedes encontrar en el nombre de la rama, ej: '[PLATFORM-89876] Implementado login'. Mete en el commit SOLO los ficheros que tu has modificado en esta tarea. No pongas nada de Co-authored by.
 
 REGLA DE SALIDA:
 Si ABSOLUTAMENTE TODAS las tareas tienen 'passes: true', genera exactamente este texto: <promise>COMPLETE</promise>."
