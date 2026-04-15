@@ -19,6 +19,7 @@ RUN useradd -m -d /tmp/home -s /bin/bash claude-user \
 WORKDIR /workspace
 
 COPY --chown=claude-user:claude-user ./.claude.json /tmp/home/.claude.json
+COPY --chown=claude-user:claude-user ./settings.json /tmp/home/.claude/settings.json
 
 USER claude-user
 

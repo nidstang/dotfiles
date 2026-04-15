@@ -1,0 +1,6 @@
+{
+  "sandbox": {
+    "enable": true,
+    "autoAllow": true
+  }
+}
