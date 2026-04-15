@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "jira": {
+      "command": ["npx", "-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/mcp"]
+    }
+  }
+}
