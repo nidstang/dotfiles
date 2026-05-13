@@ -27,6 +27,7 @@
       environment.systemPackages =
         [ pkgs.stow
           pkgs.mkalias
+          pkgs.pipx
         ];
 
       system.primaryUser = "pffranco";

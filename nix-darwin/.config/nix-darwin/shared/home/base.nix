@@ -76,6 +76,12 @@
     ../files/claude/skills/start-issue/SKILL.md;
   home.file.".claude/skills/prd-to-json/SKILL.md".source =
     ../files/claude/skills/prd-to-json/SKILL.md;
+  home.file.".claude/skills/triage/SKILL.md".source =
+    ../files/claude/skills/triage/SKILL.md;
+  home.file.".claude/skills/triage/AGENT-BRIEF.md".source =
+    ../files/claude/skills/triage/AGENT-BRIEF.md;
+  home.file.".claude/skills/triage/OUT-OF-SCOPE.md".source =
+    ../files/claude/skills/triage/OUT-OF-SCOPE.md;
   xdg.configFile."television/config.toml".source = ../files/television/config.toml;
   xdg.configFile."television/cable/formulas.toml".source = ../files/television/cable/formulas.toml;
   xdg.configFile."television/cable/casks.toml".source = ../files/television/cable/casks.toml;

@@ -47,29 +47,6 @@
     }
   },
   "provider": {
-    "idealista-webui": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Idealista open Web UI",
-      "options": {
-        "baseURL": "https://gpt4all.sys.idealista/api",
-        "apiKey": "sk-d3b31c4cb09a4377b7182c1956723ca6"
-      },
-      "models": {
-        "gemini-2.5-pro": {
-          "description": "Gemini 2.5 Pro",
-          "tools": true
-        },
-        "gemini-2.5-flash": {
-          "description": "Gemini 2.5 Pro",
-          "tools": true
-        },
-        "gpt-5.2-codex": {
-          "description": "Codex gpt 5",
-          "tools": true
-        }
-      }
-    },
-
     "idealista-litellm": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Idealista LiteLLM",
