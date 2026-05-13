@@ -1,5 +1,5 @@
 ---
-name: dar-triage
+name: triage
 description: Triaje de issues de Jira para el equipo daredevils mediante una máquina de estados basada en labels. Usa esta skill cuando el usuario quiera triar issues, revisar bugs o peticiones de features entrantes, preparar issues para un agente autónomo, gestionar el flujo de trabajo de issues, o pregunte qué necesita atención en el proyecto PLATFORM. También se activa con comandos como /triage, "qué hay pendiente", "triagea esto", o cualquier mención a dar-needs-triage, dar-ready-for-agent, dar-wontfix, o labels similares. Incluso si el usuario pregunta casualmente "qué tengo pendiente" o "enséñame lo que hay que revisar", usa esta skill.
 ---
 
