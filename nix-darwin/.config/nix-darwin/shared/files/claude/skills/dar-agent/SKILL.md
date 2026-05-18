@@ -14,7 +14,7 @@ Implementar issues del proyecto PLATFORM (equipo: daredevils) que tengan la labe
 - **Campo de equipo:** `cf[11052]` (valor: `daredevils`)
 - **Repositorio:** Monorepo, directorio de trabajo: `idealista.com.static`
 - **Convención de ramas:** `feature/PLATFORM-XXXX-descripcion-corta`
-- **Entorno de ejecución:** Siempre en un **worktree de git** y un **sandbox de Claude Code** (una issue = un worktree = un sandbox aislado)
+- **Entorno de ejecución:** Cada issue se ejecuta en un **worktree temporal** de Claude Code (`--worktree`), con sandbox activado vía `/sandbox` o `settings.json`. El script `dar-agent.sh` orquesta el lanzamiento.
 
 ## Invocación
 
@@ -65,17 +65,15 @@ Antes de tocar nada, entiende el terreno:
 
 ### 3. Entorno de trabajo
 
-El agente se ejecuta dentro de un worktree temporal y un sandbox de Claude Code, lanzados por el script `dar-agent.sh`. El worktree ya está creado y apuntando a main cuando la skill arranca — no es necesario crear ramas ni worktrees manualmente.
+El agente se ejecuta dentro de un worktree temporal creado automáticamente por `claude --worktree`. El worktree ya existe y apunta a main cuando la skill arranca.
 
-El agente debe:
-
-1. Crear la rama de feature desde el worktree temporal:
+El agente debe crear la rama de feature desde el worktree:
 
 ```bash
 git checkout -b feature/PLATFORM-XXXX-descripcion-corta
 ```
 
-2. Trabajar siempre dentro del directorio `idealista.com.static` del worktree.
+Todo el trabajo se realiza dentro del directorio `idealista.com.static` del worktree.
 
 La descripción corta debe ser en kebab-case, derivada del resumen del brief. Ejemplo: `feature/PLATFORM-12974-fix-css-minification`.
 
@@ -131,7 +129,54 @@ make test
 - Si el fallo es por tu cambio → arréglalo antes de continuar
 - Si el fallo es preexistente (ya fallaba en main) → documéntalo en la PR pero no lo arregles (fuera de alcance)
 
-### 7. Crear la PR
+### 7. Crear DESCRIPTION.md
+
+Antes de hacer el commit final, crea un fichero `DESCRIPTION.md` en la raíz del worktree con la descripción de la PR. Este fichero se incluye en el commit y sirve como documentación del cambio.
+
+Usa exactamente este formato, rellenando cada sección con la información real de la implementación:
+
+```markdown
+## Ticket
+
+[PLATFORM-XXXX](https://idealista.atlassian.net/browse/PLATFORM-XXXX)
+
+## ¿Qué cambios se han implementado?
+
+- Cambio concreto 1
+- Cambio concreto 2
+- Cambio concreto 3
+
+## ¿Cómo se puede probar?
+
+*(Pasos exactos para que el revisor pueda comprobar que se cumple el "Resultado exitoso esperado" de Jira).*
+
+1. Paso concreto 1
+2. Paso concreto 2
+3. Paso concreto 3
+
+## Evidencia (Opcional)
+
+*(Añade capturas de pantalla, un GIF o un video corto si hay cambios visuales o si quieres demostrar que un proceso funciona en la consola).*
+
+## Checklist antes de pedir revisión
+
+- [x] He revisado mi propio código primero.
+- [x] He verificado que los Criterios de Aceptación de Jira se cumplen.
+- [x] No estoy incluyendo cosas marcadas como "Fuera de alcance" en el ticket.
+- [x] El código nuevo no rompe los tests o la compilación existente.
+```
+
+**Reglas:**
+
+- El enlace al ticket debe apuntar a la URL real de Jira: `https://idealista.atlassian.net/browse/PLATFORM-XXXX`
+- Los cambios implementados deben ser concretos y descriptivos, no genéricos
+- Los pasos de prueba deben ser reproducibles por alguien que no conozca el contexto
+- La sección de evidencia se deja vacía (el agente no puede generar capturas) con el placeholder para que el mantenedor la rellene si quiere
+- Los checkboxes del checklist se marcan como `[x]` — el agente ha verificado los cuatro puntos durante el flujo
+
+Haz `git add DESCRIPTION.md` y commitéalo junto con el resto de cambios o en un commit dedicado.
+
+### 8. Crear la PR
 
 Haz push de la rama y crea la PR:
 
@@ -168,7 +213,7 @@ trade-offs elegidos, o cosas que el reviewer debería mirar con atención.
 
 Asigna la PR al mantenedor como reviewer.
 
-### 8. Actualizar Jira
+### 9. Actualizar Jira
 
 Una vez creada la PR:
 
@@ -198,7 +243,7 @@ Una vez creada la PR:
 
 3. **Transiciona la issue** al estado **"Pendiente de aprobación"** (consulta las transiciones con `getTransitionsForJiraIssue` para obtener el ID correcto antes de transicionar).
 
-El worktree temporal se limpia automáticamente al salir del sandbox (gestionado por `dar-agent.sh`).
+El worktree temporal se limpia automáticamente al salir de la sesión de Claude Code (gestionado por `--worktree`).
 
 ## Cuándo parar y preguntar
 

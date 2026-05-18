@@ -1,5 +1,12 @@
 { pkgs, ... }:
 
+let
+  dar-agent = pkgs.writeShellApplication {
+    name = "dar-agent";
+    runtimeInputs = with pkgs; [ docker git curl ];
+    text = builtins.readFile ./scripts/dar-agent.sh;
+  };
+in
 {
   imports = [
     ../../shared/home/base.nix
@@ -13,6 +20,7 @@
     glow
     fd
     television
+    dar-agent
   ];
 
   programs.zsh.shellAliases = {
