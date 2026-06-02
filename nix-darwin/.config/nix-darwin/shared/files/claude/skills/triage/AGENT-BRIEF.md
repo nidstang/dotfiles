@@ -34,32 +34,32 @@ Indica qué queda fuera de alcance. Esto evita que el agente se pase de rosca o 
 Publica esto como comentario en Jira:
 
 ```
-> *Esto fue generado por IA durante el triaje.*
+> Esto fue generado por IA durante el triaje.
 
-## Brief de agente
+Brief de agente
 
-**Categoría:** dar-bug / dar-enhancement
-**Resumen:** descripción en una línea de lo que hay que hacer
+Categoría: dar-bug / dar-enhancement
+Resumen: descripción en una línea de lo que hay que hacer
 
-**Comportamiento actual:**
+Comportamiento actual:
 Describir qué pasa ahora. Para bugs, el comportamiento roto.
 Para mejoras, el status quo sobre el que se construye.
 
-**Comportamiento deseado:**
+Comportamiento deseado:
 Describir qué debería pasar tras el trabajo del agente.
 Ser específico con edge cases y condiciones de error.
 
-**Interfaces clave:**
+Interfaces clave:
 - `NombreDeTipo` — qué necesita cambiar y por qué
 - `nombreDeFuncion()` — qué devuelve actualmente vs qué debería devolver
 - Forma del config — opciones de configuración nuevas si las hay
 
-**Criterios de aceptación:**
+Criterios de aceptación:
 - [ ] Criterio específico y verificable 1
 - [ ] Criterio específico y verificable 2
 - [ ] Criterio específico y verificable 3
 
-**Fuera de alcance:**
+Fuera de alcance:
 - Cosa que NO debe cambiarse o abordarse en esta issue
 - Feature adyacente que parece relacionada pero es independiente
 ```
@@ -69,35 +69,35 @@ Ser específico con edge cases y condiciones de error.
 ### Buen brief de agente (bug)
 
 ```
-> *Esto fue generado por IA durante el triaje.*
+> Esto fue generado por IA durante el triaje.
 
 ## Brief de agente
 
-**Categoría:** dar-bug
-**Resumen:** El CSS de los proyectos React no se minifica en el bundle de producción
+Categoría:** dar-bug
+Resumen: El CSS de los proyectos React no se minifica en el bundle de producción
 
-**Comportamiento actual:**
+Comportamiento actual:
 Los bundles CSS generados por building-config para proyectos React
 se sirven sin minificar en producción. Esto afecta a Core Web Vitals
 (LCP, FCP) al aumentar innecesariamente el tamaño de transferencia.
 
-**Comportamiento deseado:**
+Comportamiento deseado:
 El CSS de producción debe estar minificado. El pipeline de build
 debe aplicar cssnano o equivalente en el paso de optimización.
 
-**Interfaces clave:**
+Interfaces clave:
 - Configuración de webpack/build — el plugin de optimización CSS
   debe estar activo en modo producción
 - El output CSS no debe contener whitespace innecesario, comentarios,
   ni propiedades duplicadas
 
-**Criterios de aceptación:**
+Criterios de aceptación:
 - [ ] El CSS de producción está minificado (sin comentarios, whitespace mínimo)
 - [ ] El CSS de desarrollo sigue sin minificar (legible para debug)
 - [ ] Los source maps CSS siguen funcionando correctamente
 - [ ] No hay regresiones visuales en los componentes afectados
 
-**Fuera de alcance:**
+Fuera de alcance:
 - Migrar de building-config a otra herramienta
 - Optimización de JS bundles (solo CSS)
 - Cambios en el pipeline de Less/SASS
@@ -108,13 +108,13 @@ debe aplicar cssnano o equivalente en el paso de optimización.
 ```
 ## Brief de agente
 
-**Resumen:** Arreglar el CSS
+Resumen: Arreglar el CSS
 
-**Qué hacer:**
+Qué hacer:
 El CSS no va bien. Mira el archivo de webpack y arréglalo.
 El loader en la línea 150 tiene el problema.
 
-**Archivos a cambiar:**
+Archivos a cambiar:
 - building-config/webpack.prod.js (línea 150)
 ```
 

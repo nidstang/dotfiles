@@ -9,7 +9,7 @@ Implementar issues del proyecto PLATFORM (equipo: daredevils) que tengan la labe
 
 ## Contexto
 
-- **Atlassian Cloud ID:** `2e3f60f0-6b80-4388-93bd-d94c92c7d19d`
+- **Herramientas:** TWG CLI (`twg`) para todas las interacciones con Jira y Bitbucket. Site: `idealista`. Descubrir comandos con `twg help`.
 - **Proyecto:** PLATFORM (key: `PLATFORM`)
 - **Campo de equipo:** `cf[11052]` (valor: `daredevils`)
 - **Repositorio:** Monorepo, directorio de trabajo: `idealista.com.static`
@@ -29,16 +29,18 @@ El mantenedor puede pedir:
 
 ### Si el mantenedor indica una issue concreta
 
-Léela con `getJiraIssue`. Comprueba que tiene la label `dar-ready-for-agent`. Si no la tiene, avisa al mantenedor y no procedas — una issue sin esa label no ha pasado el triaje y no tiene brief de agente.
+Léela con `twg jira workitem get PLATFORM-XXXX --full --site idealista`. Comprueba que tiene la label `dar-ready-for-agent`. Si no la tiene, avisa al mantenedor y no procedas — una issue sin esa label no ha pasado el triaje y no tiene brief de agente.
 
 Ejecuta solo esa issue.
 
 ### Si el mantenedor NO indica una issue concreta
 
-Busca **todas** las issues ready-for-agent con JQL:
+Busca **todas** las issues ready-for-agent con TWG:
 
-```
-project = PLATFORM AND cf[11052] = daredevils AND labels = dar-ready-for-agent ORDER BY priority DESC, created ASC
+```bash
+twg jira workitem query \
+  --jql "project = PLATFORM AND cf[11052] = daredevils AND labels = dar-ready-for-agent ORDER BY priority DESC, created ASC" \
+  --site idealista
 ```
 
 Ejecuta el flujo completo para **cada una de ellas**, una por una. Cada issue se implementa en su propio worktree y sandbox aislado (ver paso 3). Cuando termines una, pasa a la siguiente sin esperar confirmación.
@@ -47,7 +49,13 @@ Ejecuta el flujo completo para **cada una de ellas**, una por una. Cada issue se
 
 ### 1. Leer el brief de agente
 
-Lee la issue completa incluyendo comentarios. Localiza el comentario que contiene el **brief de agente** (empieza con el disclaimer "*Esto fue generado por IA durante el triaje.*" y tiene la sección "Brief de agente"). Ese comentario es tu contrato — es lo que define qué hay que hacer, el comportamiento deseado, las interfaces clave, los criterios de aceptación y los límites de alcance.
+Lee la issue completa incluyendo comentarios con TWG:
+
+```bash
+twg jira workitem get PLATFORM-XXXX --full --site idealista
+```
+
+Localiza el comentario que contiene el **brief de agente** (empieza con el disclaimer "*Esto fue generado por IA durante el triaje.*" y tiene la sección "Brief de agente"). Ese comentario es tu contrato — es lo que define qué hay que hacer, el comportamiento deseado, las interfaces clave, los criterios de aceptación y los límites de alcance.
 
 Si no hay brief de agente, **para y avisa al mantenedor**. No intentes implementar una issue sin brief — vuelve al flujo de triaje.
 
@@ -129,16 +137,31 @@ make test
 - Si el fallo es por tu cambio → arréglalo antes de continuar
 - Si el fallo es preexistente (ya fallaba en main) → documéntalo en la PR pero no lo arregles (fuera de alcance)
 
-### 7. Crear DESCRIPTION.md
+### 7. Crear la PR
 
-Antes de hacer el commit final, crea un fichero `DESCRIPTION.md` en la raíz del worktree con la descripción de la PR. Este fichero se incluye en el commit y sirve como documentación del cambio.
+Haz push de la rama y crea la PR con TWG Bitbucket:
 
-Usa exactamente este formato, rellenando cada sección con la información real de la implementación:
+```bash
+git push origin feature/PLATFORM-XXXX-descripcion-corta
+
+twg bitbucket pull-requests create \
+  --title "[PLATFORM-XXXX] Descripción concisa del cambio" \
+  --source "feature/PLATFORM-XXXX-descripcion-corta" \
+  --description "..." \
+  --close-source-branch
+```
+
+TWG auto-detecta workspace y repo del remote git.
+
+**Cuerpo de la PR** (pasar en `--description`):
 
 ```markdown
 ## Ticket
 
 [PLATFORM-XXXX](https://idealista.atlassian.net/browse/PLATFORM-XXXX)
+
+## Modelo de IA usado
+Opus 4.6
 
 ## ¿Qué cambios se han implementado?
 
@@ -148,17 +171,22 @@ Usa exactamente este formato, rellenando cada sección con la información real 
 
 ## ¿Cómo se puede probar?
 
-*(Pasos exactos para que el revisor pueda comprobar que se cumple el "Resultado exitoso esperado" de Jira).*
-
 1. Paso concreto 1
 2. Paso concreto 2
 3. Paso concreto 3
 
-## Evidencia (Opcional)
+## Criterios de aceptación verificados
 
-*(Añade capturas de pantalla, un GIF o un video corto si hay cambios visuales o si quieres demostrar que un proceso funciona en la consola).*
+- [x] Criterio 1 — cómo se verificó
+- [x] Criterio 2 — cómo se verificó
+- [x] Criterio 3 — cómo se verificó
 
-## Checklist antes de pedir revisión
+## Notas para el reviewer
+
+Cualquier decisión de implementación que merezca explicación,
+trade-offs elegidos, o cosas que el reviewer debería mirar con atención.
+
+## Checklist
 
 - [x] He revisado mi propio código primero.
 - [x] He verificado que los Criterios de Aceptación de Jira se cumplen.
@@ -171,53 +199,24 @@ Usa exactamente este formato, rellenando cada sección con la información real 
 - El enlace al ticket debe apuntar a la URL real de Jira: `https://idealista.atlassian.net/browse/PLATFORM-XXXX`
 - Los cambios implementados deben ser concretos y descriptivos, no genéricos
 - Los pasos de prueba deben ser reproducibles por alguien que no conozca el contexto
-- La sección de evidencia se deja vacía (el agente no puede generar capturas) con el placeholder para que el mantenedor la rellene si quiere
-- Los checkboxes del checklist se marcan como `[x]` — el agente ha verificado los cuatro puntos durante el flujo
+- Los checkboxes del checklist se marcan como `[x]` — el agente ha verificado los puntos durante el flujo
 
-Haz `git add DESCRIPTION.md` y commitéalo junto con el resto de cambios o en un commit dedicado.
+Asigna la PR al mantenedor como reviewer (con `--reviewer <username>` si se conoce).
 
-### 8. Crear la PR
+### 8. Actualizar Jira
 
-Haz push de la rama y crea la PR:
+Una vez creada la PR, ejecuta estos tres pasos con TWG:
+
+**1. Añadir comentario** con el enlace a la PR y resumen de la implementación:
 
 ```bash
-git push origin feature/PLATFORM-XXXX-descripcion-corta
+twg jira workitem comment create \
+  --issue-id PLATFORM-XXXX \
+  --body "..." \
+  --site idealista
 ```
 
-La PR debe incluir:
-
-**Título:** `[PLATFORM-XXXX] Descripción concisa del cambio`
-
-**Cuerpo:**
-
-```markdown
-## Qué hace esta PR
-
-Descripción breve de los cambios realizados y por qué.
-
-## Issue de referencia
-
-PLATFORM-XXXX
-
-## Criterios de aceptación verificados
-
-- [x] Criterio 1 — cómo se verificó
-- [x] Criterio 2 — cómo se verificó
-- [x] Criterio 3 — cómo se verificó
-
-## Notas para el reviewer
-
-Cualquier decisión de implementación que merezca explicación,
-trade-offs elegidos, o cosas que el reviewer debería mirar con atención.
-```
-
-Asigna la PR al mantenedor como reviewer.
-
-### 9. Actualizar Jira
-
-Una vez creada la PR:
-
-1. **Añade un comentario** en la issue de Jira con el enlace a la PR y un resumen de lo implementado:
+Contenido del comentario:
 
 ```
 > *Esto fue generado por IA durante la implementación.*
@@ -239,9 +238,30 @@ Una vez creada la PR:
 - Decisión relevante y por qué se tomó
 ```
 
-2. **Actualiza las labels:** elimina `dar-ready-for-agent` y añade `dar-in-review`. Recuerda preservar las demás labels existentes.
+**2. Actualizar labels** — quitar `dar-ready-for-agent` y poner `dar-in-review` (las demás labels se preservan automáticamente):
 
-3. **Transiciona la issue** al estado **"Pendiente de aprobación"** (consulta las transiciones con `getTransitionsForJiraIssue` para obtener el ID correcto antes de transicionar).
+```bash
+twg jira workitem update \
+  --id PLATFORM-XXXX \
+  --remove-labels dar-ready-for-agent \
+  --add-labels dar-in-review \
+  --site idealista
+```
+
+**3. Transicionar** al estado **"Pendiente de aprobación"**:
+
+```bash
+twg jira workitem transition \
+  --id PLATFORM-XXXX \
+  --transition-id "Pendiente de aprobación" \
+  --site idealista
+```
+
+Si la transición falla por el nombre, descubre el ID correcto listando las transiciones disponibles:
+
+```bash
+twg jira workitem transition --id PLATFORM-XXXX --site idealista
+```
 
 El worktree temporal se limpia automáticamente al salir de la sesión de Claude Code (gestionado por `--worktree`).
 

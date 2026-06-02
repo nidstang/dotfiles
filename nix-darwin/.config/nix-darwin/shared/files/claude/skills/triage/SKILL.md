@@ -9,10 +9,9 @@ Mover issues de Jira en el proyecto PLATFORM (equipo: daredevils) a través de u
 
 ## Contexto de Jira
 
-- **Atlassian Cloud ID:** `2e3f60f0-6b80-4388-93bd-d94c92c7d19d`
+- **Herramientas:** TWG CLI (`twg`) para todas las interacciones con Jira. Site: `idealista`. Descubrir comandos con `twg help`.
 - **Proyecto:** PLATFORM (key: `PLATFORM`)
 - **Campo de equipo:** `cf[11052]` (campo de grupo, valor: `daredevils`)
-- **Tracker:** Jira (herramientas MCP de Atlassian)
 
 Todo comentario publicado en Jira durante el triaje **debe** empezar con este disclaimer:
 
@@ -40,7 +39,11 @@ Cinco labels de **estado**:
 
 Cada issue triada debe llevar exactamente una label de categoría y una de estado. Si hay labels de estado en conflicto, señálalo y pregunta al mantenedor antes de hacer nada.
 
-**Importante:** Al actualizar labels mediante la API de Jira, el campo `labels` **reemplaza** todas las labels. Siempre lee la issue primero, conserva las labels existentes, y añade/elimina solo las labels `dar-*` que estés cambiando.
+**Importante:** Al actualizar labels, usa `--add-labels` y `--remove-labels` de TWG para modificaciones atómicas sin afectar a las demás labels:
+
+```bash
+twg jira workitem update --id PLATFORM-XXXX --add-labels dar-needs-triage --remove-labels dar-needs-info --site idealista
+```
 
 ## Transiciones de estado
 
@@ -60,28 +63,41 @@ El mantenedor invoca `/triage` o pide en lenguaje natural lo que necesita. Inter
 
 - "Muéstrame lo que necesita mi atención"
 - "Vamos a ver PLATFORM-12974"
+- "Vamos a ver PLATFROM-12974 usando la skill /interview-me
 - "Mueve PLATFORM-12974 a ready-for-agent"
 - "¿Qué hay listo para que lo coja un agente?"
 
 ## Mostrar lo que necesita atención
 
-Consulta Jira con JQL y presenta tres grupos, del más antiguo al más reciente:
+Consulta Jira con TWG y presenta tres grupos, del más antiguo al más reciente:
 
 1. **Sin etiquetar** — issues del equipo daredevils sin ninguna label `dar-*`.
-   JQL: `project = PLATFORM AND cf[11052] = daredevils AND statusCategory != Done AND labels not in (dar-needs-triage, dar-needs-info, dar-ready-for-agent, dar-ready-for-human, dar-wontfix, dar-bug, dar-enhancement)`
+   ```bash
+   twg jira workitem query --jql "project = PLATFORM AND cf[11052] = daredevils AND statusCategory != Done AND labels not in (dar-needs-triage, dar-needs-info, dar-ready-for-agent, dar-ready-for-human, dar-wontfix, dar-bug, dar-enhancement)" --site idealista
+   ```
 
 2. **`dar-needs-triage`** — pendientes de evaluación.
-   JQL: `project = PLATFORM AND cf[11052] = daredevils AND labels = dar-needs-triage ORDER BY created ASC`
+   ```bash
+   twg jira workitem query --jql "project = PLATFORM AND cf[11052] = daredevils AND labels = dar-needs-triage ORDER BY created ASC" --site idealista
+   ```
 
 3. **`dar-needs-info` con actividad reciente del reporter** — necesitan re-evaluación.
-   JQL: `project = PLATFORM AND cf[11052] = daredevils AND labels = dar-needs-info ORDER BY updated DESC`
+   ```bash
+   twg jira workitem query --jql "project = PLATFORM AND cf[11052] = daredevils AND labels = dar-needs-info ORDER BY updated DESC" --site idealista
+   ```
    (Revisa los comentarios manualmente para ver si el reporter ha respondido desde las últimas notas de triaje.)
 
 Muestra contadores y un resumen de una línea por issue. Deja que el mantenedor elija.
 
 ## Triar una issue concreta
 
-1. **Recopilar contexto.** Lee la issue completa (descripción, comentarios, labels, reporter, fechas) usando `getJiraIssue`. Analiza las notas de triaje previas para no repetir preguntas ya resueltas. Comprueba si una petición de feature similar fue rechazada anteriormente (ver OUT-OF-SCOPE.md).
+1. **Recopilar contexto.** Lee la issue completa (descripción, comentarios, labels, reporter, fechas) con TWG:
+
+   ```bash
+   twg jira workitem get PLATFORM-XXXX --full --site idealista
+   ```
+
+   Analiza las notas de triaje previas para no repetir preguntas ya resueltas. Comprueba si una petición de feature similar fue rechazada anteriormente (ver OUT-OF-SCOPE.md).
 
 2. **Recomendar.** Dile al mantenedor tu recomendación de categoría y estado con el razonamiento, más un breve resumen relevante a la issue. Espera instrucciones.
 
@@ -89,7 +105,17 @@ Muestra contadores y un resumen de una línea por issue. Deja que el mantenedor 
 
 4. **Interrogar (si es necesario).** Si la issue necesita más desarrollo, haz al mantenedor preguntas dirigidas para rellenar los huecos.
 
-5. **Aplicar el resultado:**
+5. **Aplicar el resultado.** Publica el comentario con TWG y actualiza las labels:
+
+   ```bash
+   # Publicar comentario
+   twg jira workitem comment create --issue-id PLATFORM-XXXX --body "..." --site idealista
+
+   # Actualizar labels (ejemplo: de needs-triage a ready-for-agent)
+   twg jira workitem update --id PLATFORM-XXXX --remove-labels dar-needs-triage --add-labels dar-ready-for-agent,dar-bug --site idealista
+   ```
+
+   Según el resultado:
 
    - `dar-ready-for-agent` — publica un comentario con el brief del agente (ver AGENT-BRIEF.md).
    - `dar-ready-for-human` — misma estructura que un brief de agente, pero indicando por qué no se puede delegar (decisiones de juicio, acceso externo, decisiones de diseño, testing manual).
@@ -104,7 +130,7 @@ Si el mantenedor dice "mueve PLATFORM-12974 a ready-for-agent", confía en él y
 
 ## Plantilla de needs-info
 
-Publica esto como comentario en Jira:
+Publica esto como comentario en Jira con `twg jira workitem comment create --issue-id PLATFORM-XXXX --body "..." --site idealista`:
 
 ```
 > *Esto fue generado por IA durante el triaje.*
@@ -130,7 +156,7 @@ Si existen notas de triaje previas en la issue (comentarios con el disclaimer de
 
 ## Referencia rápida de JQL
 
-Consultas JQL útiles para el equipo daredevils:
+Consultas útiles para el equipo daredevils (ejecutar con `twg jira workitem query --jql "..." --site idealista`):
 
 ```
 # Todas las issues abiertas de daredevils pendientes de triaje
