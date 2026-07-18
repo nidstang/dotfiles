@@ -67,7 +67,10 @@
             # but opencode better to get the latest
             "node"
             "opencode"
+            "pi-coding-agent"
             "ffmpeg"
+            "herdr"
+            "gh"
           ];
           taps = [
             "nikitabobko/homebrew-tap"  # this is managed by nix-homebrew but it must be here for "zap" to work

@@ -1,0 +1,56 @@
+# Configuración de Herdr inspirada en tmux y en config/tmux/.tmux.conf.
+# Las opciones no declaradas conservan los valores predeterminados de Herdr.
+
+[theme]
+name = "terminal"
+
+[theme.custom]
+panel_bg = "#333333"
+accent = "#5eacd3"
+
+[terminal]
+# Igual que tmux: los nuevos panes parten del directorio del pane activo.
+new_cwd = "follow"
+
+[keys]
+# Prefijo personal de tmux: C-a.
+prefix = "ctrl+a"
+
+# Atajos estándar de tmux.
+help = "prefix+?"
+detach = "prefix+d"
+new_tab = "prefix+c"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+ampersand"
+copy_mode = "prefix+["
+close_pane = "prefix+x"
+zoom = "prefix+z"
+
+# Configuración personal de tmux.
+rename_tab = "prefix+r"
+last_pane = "prefix+^"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+split_vertical = "prefix+v"
+
+# Equivalente al split vertical de tmux (prefix+").
+split_horizontal = "prefix+\""
+
+# `r` se usa para renombrar; se conserva el modo resize en otro atajo.
+resize_mode = "prefix+alt+r"
+
+# Sessionizer: abre fzf en un popup y cambia o crea el workspace elegido.
+[[keys.command]]
+key = "prefix+f"
+type = "popup"
+command = "~/.local/bin/herdr-sessionizer"
+width = "80%"
+height = "80%"
+
+[ui]
+mouse_capture = true
+agent_panel_sort = "spaces"
