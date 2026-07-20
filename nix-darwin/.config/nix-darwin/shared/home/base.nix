@@ -94,6 +94,16 @@
     ../files/claude/skills/end-day/references/vault-conventions.md;
   home.file.".claude/settings.json".source =
     ../files/claude/settings.json;
+  home.file.".claude/skills/teach/SKILL.md".source =
+    ../files/claude/skills/teach/SKILL.md;
+  home.file.".claude/skills/teach/GLOSSARY-FORMAT.md".source =
+    ../files/claude/skills/teach/GLOSSARY-FORMAT.md;
+  home.file.".claude/skills/teach/LEARNING-FORMAT.md".source =
+    ../files/claude/skills/teach/LEARNING-RECORD-FORMAT.md;
+  home.file.".claude/skills/teach/MISSION-RECORD-FORMAT.md".source =
+    ../files/claude/skills/teach/MISSION-FORMAT.md;
+  home.file.".claude/skills/teach/RESOURCES-FORMAT.md".source =
+    ../files/claude/skills/teach/RESOURCES-FORMAT.md;
   xdg.configFile."television/config.toml".source = ../files/television/config.toml;
   xdg.configFile."television/cable/formulas.toml".source = ../files/television/cable/formulas.toml;
   xdg.configFile."television/cable/casks.toml".source = ../files/television/cable/casks.toml;

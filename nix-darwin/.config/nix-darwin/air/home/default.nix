@@ -14,6 +14,7 @@
   home.packages = with pkgs; [
     fnm
     fd
+    jq
     television
   ];
 
@@ -28,6 +29,14 @@
   '';
 
   home.file.".tmux.conf".source = ./config/tmux/.tmux.conf;
+  home.file.".local/bin/herdr-sessionizer" = {
+    source = ./bin/herdr-sessionizer;
+    executable = true;
+  };
   xdg.configFile."nvim".source = ./config/nvim;
   xdg.configFile."ghostty".source = ./config/ghostty;
+  xdg.configFile."herdr/config.toml" = {
+    source = ./config/herdr/config.toml;
+    force = true;
+  };
 }
