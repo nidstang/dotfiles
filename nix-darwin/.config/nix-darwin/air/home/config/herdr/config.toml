@@ -2,11 +2,7 @@
 # Las opciones no declaradas conservan los valores predeterminados de Herdr.
 
 [theme]
-name = "terminal"
-
-[theme.custom]
-panel_bg = "#333333"
-accent = "#5eacd3"
+name = "catppuccin"
 
 [terminal]
 # Igual que tmux: los nuevos panes parten del directorio del pane activo.
@@ -35,6 +31,8 @@ focus_pane_left = "prefix+h"
 focus_pane_down = "prefix+j"
 focus_pane_up = "prefix+k"
 focus_pane_right = "prefix+l"
+previous_workspace = "prefix+shift+h"
+next_workspace = "prefix+shift+l"
 split_vertical = "prefix+v"
 
 # Equivalente al split vertical de tmux (prefix+").
@@ -54,3 +52,4 @@ height = "80%"
 [ui]
 mouse_capture = true
 agent_panel_sort = "spaces"
+pane_borders = false

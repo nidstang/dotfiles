@@ -70,6 +70,7 @@
             "pi-coding-agent"
             "ffmpeg"
             "herdr"
+            "hunk"
             "gh"
           ];
           taps = [
