@@ -36,7 +36,15 @@ in
 
   home.file.".tmux.conf".source = ../../air/home/config/tmux/.tmux.conf;
   home.file.".claude/.mcp.json".source = ./config/claude/.mcp.json;
+  home.file.".local/bin/herdr-sessionizer" = {
+    source = ./bin/herdr-sessionizer;
+    executable = true;
+  };
   xdg.configFile."nvim".source = ../../air/home/config/nvim;
   xdg.configFile."ghostty".source = ../../air/home/config/ghostty;
   xdg.configFile."opencode/opencode.json".source = ./config/opencode/opencode.json;
+  xdg.configFile."herdr/config.toml" = {
+    source = ./config/herdr/config.toml;
+    force = true;
+  };
 }
