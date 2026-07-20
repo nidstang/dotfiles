@@ -82,6 +82,18 @@
     ../files/claude/skills/triage/AGENT-BRIEF.md;
   home.file.".claude/skills/triage/OUT-OF-SCOPE.md".source =
     ../files/claude/skills/triage/OUT-OF-SCOPE.md;
+  home.file.".claude/skills/dar-agent/SKILL.md".source =
+    ../files/claude/skills/dar-agent/SKILL.md;
+  home.file.".claude/skills/open-day/SKILL.md".source =
+    ../files/claude/skills/open-day/SKILL.md;
+  home.file.".claude/skills/open-day/references/vault-conventions.md".source =
+    ../files/claude/skills/open-day/references/vault-conventions.md;
+  home.file.".claude/skills/end-day/SKILL.md".source =
+    ../files/claude/skills/end-day/SKILL.md;
+  home.file.".claude/skills/end-day/references/vault-conventions.md".source =
+    ../files/claude/skills/end-day/references/vault-conventions.md;
+  home.file.".claude/settings.json".source =
+    ../files/claude/settings.json;
   xdg.configFile."television/config.toml".source = ../files/television/config.toml;
   xdg.configFile."television/cable/formulas.toml".source = ../files/television/cable/formulas.toml;
   xdg.configFile."television/cable/casks.toml".source = ../files/television/cable/casks.toml;

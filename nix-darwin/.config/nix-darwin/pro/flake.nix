@@ -67,6 +67,8 @@
           brews = [
             "node"
             "opencode"
+            "herdr"
+            "make"
           ];
           taps = [
             "nikitabobko/homebrew-tap"

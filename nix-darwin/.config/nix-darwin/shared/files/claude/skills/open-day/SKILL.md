@@ -68,6 +68,9 @@ For each note found (most recent first):
 - Sort by `created` descending (newest first).
 - Show a brief summary of each.
 
+### Step 5: Find any new work on Jira
+Using the TWG cli, you have to find the most recent work added to jira. Filter by: project = Platform and Equipo = daredevils.
+
 ### Step 5: Present the briefing
 
 Structure the output as a natural, conversational briefing — not a wall of bullet points. Use this flow:
@@ -75,8 +78,9 @@ Structure the output as a natural, conversational briefing — not a wall of bul
 1. **Greeting** — short, with today's date.
 2. **Recap** — "Esto es lo que pasó en los últimos días:" followed by summaries of each daily note, separated by date headers.
 3. **Actionables urgentes** — if any have due dates, show them prominently first. Overdue items get special attention.
+5. **Tareas de Jira** — all tickets listed you got on Step 5
 4. **Otros pendientes** — remaining pending actionables without due dates.
-5. **Cierre** — a one-liner like "¿Algo que quieras priorizar o revisar en detalle?"
+6. **Cierre** — a one-liner like "¿Algo que quieras priorizar o revisar en detalle?"
 
 ### Example output structure
 
